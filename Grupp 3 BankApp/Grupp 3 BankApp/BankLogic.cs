@@ -57,6 +57,25 @@ namespace Grupp_3_BankApp
 
         }
 
+        //TODO: När customer klassen är klar lägg till detta
+
+        private bool AddCustomer(string name, int prsnNumber)
+        {
+            throw new NotImplementedException();
+
+            foreach(Customer customer in GlobalCustomerList)
+            {
+                if(customer.PrsnNumber != prsnNumber)
+                {
+                    File.AppendText($"{name} - {prsnNumber} ; ");
+                    return true;
+                }
+            }
+            return false;
+
+        }
+
+
         public bool ChangeCustomerName(string newName, int prsnNumber)
         {
 
