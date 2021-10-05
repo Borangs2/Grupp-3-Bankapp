@@ -14,6 +14,46 @@ namespace Grupp_3_BankApp
 
 
 
+
+
+        private List<string> GetAllCustomers(List<Customer> GlobalCustomerList)
+        {
+            throw new NotImplementedException();
+            List<string> CustomerList = new List<string>();
+
+            foreach (Customer customer in GlobalCustomerList)
+            {
+                //string[] customerValues = new string[2] { customer.Name, customer.PrsnNumber };
+                //String.Join(" : ", customerValues);
+            }
+            return CustomerList;
+        }
+
+        private List<string> GetCustomer(List<Customer> GlobalCustomerList, int prsnNumber)
+        {
+            throw new NotImplementedException();
+            List<string> CustomerList = new List<string>();
+
+            foreach(Customer customer in GlobalCustomerList)
+            {
+                /*
+                if(customer.PrsnNumber == prsnNumber)
+                {
+                    CustomerList.Add(customer.Name);
+                    CustomerList.Add(customer.prsnNumber);
+
+                    //TODO: Ändra Konton till dess riktiga namn
+                    foreach(SavingsAccount account in customer.Konton)
+                    {
+                        CustomerList.Add(account);
+                    }
+                }
+                */
+            }
+
+
+        }
+
         //TODO: När customer klassen är klar lägg till detta
         private List<Customer> InterpretFile(List<string> CustomerFile)
         {
