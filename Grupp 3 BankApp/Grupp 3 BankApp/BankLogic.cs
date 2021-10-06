@@ -65,7 +65,7 @@ namespace Grupp_3_BankApp
 
             foreach(Customer customer in GlobalCustomerList)
             {
-                if(customer.PrsnNumber != prsnNumber)
+                //if(customer.PrsnNumber != prsnNumber)
                 {
                     File.AppendText($"{name} - {prsnNumber} ; ");
                     return true;
@@ -76,7 +76,7 @@ namespace Grupp_3_BankApp
         }
 
 
-        public bool ChangeCustomerName(string newName, int prsnNumber)
+        public bool ChangeCustomerName(string newName, int prsnNumber) 
         {
 
             List<Customer> CustomerList = GlobalCustomerList;
@@ -132,12 +132,26 @@ namespace Grupp_3_BankApp
 
         }
 
+        public int AddSavingsaccount(int prsnNumber)
+        {
+            //Kommer behövas ändras till List<Customer> när cusotmer klassen har pushats
+            List<string> CustomerFile = InterpretFile(ReadCustomerFile());
+
+            
+
+
+            return 0;
+        }
+
         //TODO: När customer klassen är klar lägg till detta
-        private List<Customer> InterpretFile(List<string> CustomerFile)
+        //Kan hända att ändra List<string> till List<customer>
+        private List<string> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
 
-            List<Customer> CustomerList = new List<Customer>();
+            CustomerFile.Add("Andreas Boräng - 6376904824 ; 1 , 64362 : 2 , 52");
+
+            List<string> CustomerList = new List<string>();
             string[] getName = new string[2];
             string[] getPrsnNumber = new string[2];
             List<string> getAccounts = new List<string>();
@@ -158,9 +172,12 @@ namespace Grupp_3_BankApp
 
             foreach (string customer in CustomerFile)
             {
-                
+                string tempAccounts = string.Join(" : ", getAccounts);
+                CustomerList.Add($"{getName[0]} - {getPrsnNumber[0]} ; {tempAccounts}");
+
                 //GlobalCustomerList.Add(new Customer { getName, getPrsnNumber, getAccounts });
             }
+            Console.WriteLine(getAccounts.Count);
             return CustomerList;
         }
         private List<string> ReadCustomerFile()
