@@ -12,6 +12,7 @@ namespace Grupp_3_BankApp
 
         public BankLogic()
         {
+            //Endast för testning
             InterpretFile(ReadCustomerFile());
         }
 
@@ -57,25 +58,47 @@ namespace Grupp_3_BankApp
 
         }
 
-        public bool ChangeCustomerName(string newName, int prsnNumber)
+        //TODO: När customer klassen är klar lägg till detta
+
+        private bool AddCustomer(string name, int prsnNumber)
+        {
+            bool unique = true;
+            foreach(Customer customer in GlobalCustomerList)
+            {
+                if (customer.PrsnNumber == prsnNumber)
+                {
+                    unique = false;
+                }
+            }
+            if (unique)
+            {
+                File.AppendText($"{name} - {prsnNumber} ; ");
+                new Customer(name, prsnNumber);
+                return true;
+            }
+
+            return false;
+
+        }
+
+
+        public bool ChangeCustomerName(string newName, int prsnNumber) 
         {
 
             List<Customer> CustomerList = GlobalCustomerList;
             
             foreach(Customer customer in CustomerList)
-            {
-                /*
-                if (customer.Prsnnumber == prsnNumber)
+            {              
+                if (customer.PrsnNumber == prsnNumber)
                 {
 
-                    Console.WriteLine("bra");
 
 
-
+                    return true;
                 }
 
                 //Ändra filen
-                */
+                
             }         
             return false;
         }
@@ -113,10 +136,24 @@ namespace Grupp_3_BankApp
 
         }
 
+        public int AddSavingsaccount(int prsnNumber)
+        {
+            //Kommer behövas ändras till List<Customer> när cusotmer klassen har pushats
+            List<Customer> CustomerFile = InterpretFile(ReadCustomerFile());
+
+            
+
+
+            return 0;
+        }
+
         //TODO: När customer klassen är klar lägg till detta
+        //Kan hända att ändra List<string> till List<customer>
         private List<Customer> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
+
+            //CustomerFile.Add("Andreas Boräng - 6376904824 ; 1 , 64362 : 2 , 52");
 
             List<Customer> CustomerList = new List<Customer>();
             string[] getName = new string[2];
@@ -139,9 +176,12 @@ namespace Grupp_3_BankApp
 
             foreach (string customer in CustomerFile)
             {
-                
+                string tempAccounts = string.Join(" : ", getAccounts);
+                //CustomerList.Add(new Customer(getName[0], Convert.ToInt32(getPrsnNumber[0]), getAccounts));
+
                 //GlobalCustomerList.Add(new Customer { getName, getPrsnNumber, getAccounts });
             }
+            Console.WriteLine(getAccounts.Count);
             return CustomerList;
         }
         private List<string> ReadCustomerFile()
