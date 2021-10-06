@@ -12,6 +12,7 @@ namespace Grupp_3_BankApp
 
         public BankLogic()
         {
+            //Endast för testning
             InterpretFile(ReadCustomerFile());
         }
 
@@ -61,16 +62,21 @@ namespace Grupp_3_BankApp
 
         private bool AddCustomer(string name, int prsnNumber)
         {
-            throw new NotImplementedException();
-
+            bool unique = true;
             foreach(Customer customer in GlobalCustomerList)
             {
-                //if(customer.PrsnNumber != prsnNumber)
+                if (customer.PrsnNumber == prsnNumber)
                 {
-                    File.AppendText($"{name} - {prsnNumber} ; ");
-                    return true;
+                    unique = false;
                 }
             }
+            if (unique)
+            {
+                File.AppendText($"{name} - {prsnNumber} ; ");
+                new Customer(name, prsnNumber);
+                return true;
+            }
+
             return false;
 
         }
@@ -82,19 +88,17 @@ namespace Grupp_3_BankApp
             List<Customer> CustomerList = GlobalCustomerList;
             
             foreach(Customer customer in CustomerList)
-            {
-                /*
-                if (customer.Prsnnumber == prsnNumber)
+            {              
+                if (customer.PrsnNumber == prsnNumber)
                 {
 
-                    Console.WriteLine("bra");
 
 
-
+                    return true;
                 }
 
                 //Ändra filen
-                */
+                
             }         
             return false;
         }
@@ -135,7 +139,7 @@ namespace Grupp_3_BankApp
         public int AddSavingsaccount(int prsnNumber)
         {
             //Kommer behövas ändras till List<Customer> när cusotmer klassen har pushats
-            List<string> CustomerFile = InterpretFile(ReadCustomerFile());
+            List<Customer> CustomerFile = InterpretFile(ReadCustomerFile());
 
             
 
@@ -145,13 +149,13 @@ namespace Grupp_3_BankApp
 
         //TODO: När customer klassen är klar lägg till detta
         //Kan hända att ändra List<string> till List<customer>
-        private List<string> InterpretFile(List<string> CustomerFile)
+        private List<Customer> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
 
-            CustomerFile.Add("Andreas Boräng - 6376904824 ; 1 , 64362 : 2 , 52");
+            //CustomerFile.Add("Andreas Boräng - 6376904824 ; 1 , 64362 : 2 , 52");
 
-            List<string> CustomerList = new List<string>();
+            List<Customer> CustomerList = new List<Customer>();
             string[] getName = new string[2];
             string[] getPrsnNumber = new string[2];
             List<string> getAccounts = new List<string>();
@@ -173,7 +177,7 @@ namespace Grupp_3_BankApp
             foreach (string customer in CustomerFile)
             {
                 string tempAccounts = string.Join(" : ", getAccounts);
-                CustomerList.Add($"{getName[0]} - {getPrsnNumber[0]} ; {tempAccounts}");
+                //CustomerList.Add(new Customer(getName[0], Convert.ToInt32(getPrsnNumber[0]), getAccounts));
 
                 //GlobalCustomerList.Add(new Customer { getName, getPrsnNumber, getAccounts });
             }
