@@ -8,6 +8,7 @@ namespace Grupp_3_BankApp
         {
             BankLogic test = new BankLogic();
             
+            
         }
     }
 }

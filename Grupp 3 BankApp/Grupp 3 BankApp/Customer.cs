@@ -7,18 +7,18 @@ namespace Grupp_3_BankApp
     class Customer : BankLogic
     {
         public string Name { get; set; } //Ex. John Doe
-        public int PrsnNumber { get; } //Ex. 20201212-1234
+        public string PrsnNumber { get; } //Ex. 202012121234
 
         public List<SavingsAccount> Accounts { get; } = new List<SavingsAccount>();
 
 
-        public Customer(string name, int id)
+        public Customer(string name, string id)
         {
             Name = name;
             PrsnNumber = id;
         }
 
-        public Customer(string name, int id, List<SavingsAccount> accounts)
+        public Customer(string name, string id, List<SavingsAccount> accounts)
         {
             Name = name;
             PrsnNumber = id;
@@ -60,7 +60,7 @@ namespace Grupp_3_BankApp
             Console.WriteLine("Type your Social Security Number (YYYYMMDDXXXX)");
             try
             {
-                int prsnNumber = Convert.ToInt32(Console.ReadLine());
+                string prsnNumber = Console.ReadLine();
                 Console.WriteLine("Type your name");
                 Name = Console.ReadLine();
 

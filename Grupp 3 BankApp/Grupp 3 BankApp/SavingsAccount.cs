@@ -4,35 +4,48 @@ using System.Text;
 
 namespace Grupp_3_BankApp
 {
-class SavingsAccount
+class SavingsAccount : BankLogic
     {
-        public SavingsAccount()
-        {
-            global_kontonummer++;
-            konto_kontonummer = global_kontonummer;
-        }
+
         private protected double kontosaldo;
-        public double saldo
+        public double Saldo
         {
             get { return kontosaldo; }
             set { if (value >= 0) kontosaldo = value; }
         }
 
+        public SavingsAccount()
+        {
+            global_kontonummer++;
+            Kontonummer = global_kontonummer;
+        }
+
+        public SavingsAccount(int kontonummer, int saldo)
+        {
+            Kontonummer = kontonummer;
+            Saldo = saldo;
+        }
+
+        
+        /*
         private protected string kontonamn;
         public string namn
         {
             get { return kontonamn; }
             set { if (value != "") kontonamn = value; }
         }
+        */
 
         private static int global_kontonummer = 1000;   // samma variabel för alla SavingsAccount objekt
-        private protected int konto_kontonummer;        // det här objektets kontonummer
+        private protected int Kontonummer;        // det här objektets kontonummer
         public int kontonummer
         {
 
-            get { return konto_kontonummer; }
-            set { konto_kontonummer = value; }
+            get { return Kontonummer; }
+            set { Kontonummer = value; }
         }
+
+
 
         private protected double kontoräntesats = 1.0;
         public double räntesats
@@ -40,6 +53,7 @@ class SavingsAccount
             get { return kontoräntesats; }
             set { kontoräntesats = value; }
         }
+
         public double ränta
         {
             get { return kontosaldo * (kontoräntesats / 100); }
@@ -61,7 +75,10 @@ class SavingsAccount
 
         public override string ToString()
         {
-            return "Namn: " + kontonamn + "\nkontonummer: " + konto_kontonummer + "\nsaldo: " + kontosaldo + "\nkontotyp: " + "sparkonto" + "\nkontotyp: " + kontoräntesats;
+            return $"kontonummer: {Kontonummer} \n" +
+                $"saldo: {kontosaldo} \n" +
+                $"kontotyp: Sparkonto" +
+                $"\nkontotyp: {kontoräntesats}";
         }
     }
 }
