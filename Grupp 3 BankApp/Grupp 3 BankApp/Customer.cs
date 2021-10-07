@@ -86,5 +86,48 @@ namespace Grupp_3_BankApp
 
             return sb.ToString();
         }
+
+        //public bool Deposit()
+       // {
+        //    Console.WriteLine("Type the Social Security Number (YYYYMMDDXXXX) to deposit money");
+        //    try
+       //     {
+        //        string prsnNumber = Console.ReadLine();
+        //        Console.WriteLine("Which account would you like to deposit to?");
+        //        //Accounts = Console.ReadLine();
+//
+        //        
+       //     }
+        //    catch
+        //    {
+        //        Console.WriteLine("Error");
+       //         return false;
+            
+//
+//
+       //     return true;
+      //  }
+
+        public void Menu()
+        {
+            Console.WriteLine("Enter 1 to add new account, 2 to change name, 3 to check info about your account, 4 to deposit");
+            string StringMenu = Console.ReadLine();
+            int NextChoice = Convert.ToInt32(StringMenu);
+            switch (NextChoice)
+            {
+                case 1:
+                    AddNewAccount();
+                    break;
+                case 2:
+                    //Deposit();
+                    break;
+                case 3:
+                    //GetCustomer();
+                    break;
+                case 4:
+                   // insättning();
+                    break;
+            }
+        }
     }
 }
