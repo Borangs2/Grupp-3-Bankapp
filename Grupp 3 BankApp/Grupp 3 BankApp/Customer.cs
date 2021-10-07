@@ -120,26 +120,6 @@ namespace Grupp_3_BankApp
             return accounts;
         }
 
-        public void Menu()
-        {
-            Console.WriteLine("Enter 1 to add new account, 2 to change name, 3 to check info about your account, 4 to deposit");
-            string StringMenu = Console.ReadLine();
-            int NextChoice = Convert.ToInt32(StringMenu);
-            switch (NextChoice)
-            {
-                case 1:
-                    AddNewAccount();
-                    break;
-                case 2:
-                    //Deposit();
-                    break;
-                case 3:
-                    //GetCustomer();
-                    break;
-                case 4:
-                   // insättning();
-                    break;
-            }
-        }
+        
     }
 }
