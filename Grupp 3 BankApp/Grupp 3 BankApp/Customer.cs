@@ -88,25 +88,35 @@ namespace Grupp_3_BankApp
         }
 
         //public bool Deposit()
-       // {
+        // {
         //    Console.WriteLine("Type the Social Security Number (YYYYMMDDXXXX) to deposit money");
         //    try
-       //     {
+        //     {
         //        string prsnNumber = Console.ReadLine();
         //        Console.WriteLine("Which account would you like to deposit to?");
         //        //Accounts = Console.ReadLine();
-//
+        //
         //        
-       //     }
+        //     }
         //    catch
         //    {
         //        Console.WriteLine("Error");
-       //         return false;
-            
-//
-//
-       //     return true;
-      //  }
+        //         return false;
+
+        //
+        //
+        //     return true;
+        //  }
+
+        public List<string> GetAccountsToString(Customer customer)
+        {
+            List<string> accounts = new List<string>();
+            foreach (SavingsAccount account in customer.Accounts)
+            {
+                accounts.Add($"{account.kontonummer} , {account.Saldo}");
+            }
+            return accounts;
+        }
 
         public void Menu()
         {
