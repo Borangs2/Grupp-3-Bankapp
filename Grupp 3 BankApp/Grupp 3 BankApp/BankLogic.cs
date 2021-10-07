@@ -20,6 +20,9 @@ namespace Grupp_3_BankApp
         //- = färdigt och testat
 
         //*
+        //Fetches all customers name and PrsnNumber
+        //Returns a List<string> with all customers name and prsnNumber
+        //File format: "Name - PernNumber"
         private List<string> GetAllCustomers(List<Customer> GlobalCustomerList)
         {
             List<string> CustomerList = new List<string>();
@@ -33,6 +36,8 @@ namespace Grupp_3_BankApp
         }
 
         //*
+        //Fetches a customer from the the global customer list
+        //Returns the customer of type Customer
         private Customer GetCustomer(string prsnNumber)
         {
             Customer thisCustomer;
@@ -55,6 +60,8 @@ namespace Grupp_3_BankApp
         //TODO: När customer klassen är klar lägg till detta
 
         //*
+        //Adds a new customer without any accounts to both files and object
+        //Returns true if it succeded and false otherwise
         private bool AddCustomer(string name, string prsnNumber)
         {
             bool unique = true;
@@ -77,6 +84,8 @@ namespace Grupp_3_BankApp
         }
 
         //*
+        //Changes a customers name in files and object
+        //Returns true if it succeded and false otherwise
         public bool ChangeCustomerName(string newName, string prsnNumber) 
         {
             
@@ -106,6 +115,8 @@ namespace Grupp_3_BankApp
         }
 
         //*
+        //Removes a customer from all files
+        //Returns true if it succeded and flase otherwise
         public bool RemoveCustomer(string prsnNumber)
         {
             
@@ -137,6 +148,8 @@ namespace Grupp_3_BankApp
         }
         
         //*
+        //Creates a new savingsaccount in files
+        //Returns the new account numbers
         public int AddSavingsAccount(string prsnNumber)
         {
             string[] newAccountNr = new string[2];
@@ -147,8 +160,9 @@ namespace Grupp_3_BankApp
                     customer.AddAccount(new SavingsAccount());
                     int index = GlobalCustomerList.IndexOf(customer);
 
+                    //Get all data
                     List<string> customerList = new List<string>(File.ReadAllLines(filePath));
-
+                    //Get all accounts in a single string
                     List<string> accounts = customer.GetAccountsToString(customer);
                     string joined = string.Join(" : ", accounts);
 
@@ -164,7 +178,8 @@ namespace Grupp_3_BankApp
             return Convert.ToInt32(newAccountNr[0]);
         }
 
-
+        //*
+        //Call on startup to fetch and create files and the global customer list
         public bool Startup()
         {
             try
@@ -179,7 +194,8 @@ namespace Grupp_3_BankApp
             return false;
         }
 
-        //TODO: När customer klassen är klar lägg till detta
+        //Interprets the files read by the ReadCustomerFiles method
+        //Returns a List<Customer> with every customer including accounts if any
         private List<Customer> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
@@ -207,20 +223,18 @@ namespace Grupp_3_BankApp
 
             foreach (string customer in CustomerFile)
             {
-                //This causes an infinite loop and i dont know why
                 CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
 
                 GlobalCustomerList.Add(CustomerList[CustomerList.Count - 1]);
             }
             return CustomerList;
         }
+        
+        //Reads the textfile and outputs it in raw data
+        //Returns a List<string> with raw data to be interpreted
+        //File foramat: "Namn - ååååmmddxxxx ; konto , saldo : konto2 , saldo"
         private List<string> ReadCustomerFile()
         {
-            /*
-             * File formating:
-             * Namn - ååååmmddxxxx ; konto , saldo : konto2 , saldo
-            */
-
             Console.WriteLine("Reading...");
 
             List<string> CustomerList;

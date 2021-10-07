@@ -108,6 +108,8 @@ namespace Grupp_3_BankApp
         //     return true;
         //  }
 
+        //Returns a List<string> with all accounts in file formating:
+        //Kontonamn , saldo : kontonamn , saldo : etc
         public List<string> GetAccountsToString(Customer customer)
         {
             List<string> accounts = new List<string>();
