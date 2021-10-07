@@ -7,60 +7,55 @@ namespace Grupp_3_BankApp
 {
     class BankLogic
     {
-
-        private List<Customer> GlobalCustomerList = new List<Customer>();          
-
+        //Lista med alla customers för användning i denna klass
+        private List<Customer> GlobalCustomerList = new List<Customer>();
+        private string filePath = "Customers.txt";
         public BankLogic()
         {
             //Endast för testning
-            InterpretFile(ReadCustomerFile());
         }
 
 
+        //* = färdigt men otestat
+        //- = färdigt och testat
 
-
-
+        //*
         private List<string> GetAllCustomers(List<Customer> GlobalCustomerList)
         {
-            throw new NotImplementedException();
             List<string> CustomerList = new List<string>();
 
             foreach (Customer customer in GlobalCustomerList)
             {
-                //string[] customerValues = new string[2] { customer.Name, customer.PrsnNumber };
-                //String.Join(" : ", customerValues);
+                string[] customerValues = new string[2] { customer.Name, customer.PrsnNumber };
+                string.Join(" : ", customerValues);
             }
             return CustomerList;
         }
 
-        private List<string> GetCustomer(List<Customer> GlobalCustomerList, int prsnNumber)
+        //*
+        private Customer GetCustomer(string prsnNumber)
         {
-            throw new NotImplementedException();
-            List<string> CustomerList = new List<string>();
+            Customer thisCustomer;
 
             foreach(Customer customer in GlobalCustomerList)
             {
-                /*
+                
                 if(customer.PrsnNumber == prsnNumber)
                 {
-                    CustomerList.Add(customer.Name);
-                    CustomerList.Add(customer.prsnNumber);
-
-                    //TODO: Ändra Konton till dess riktiga namn
-                    foreach(SavingsAccount account in customer.Konton)
-                    {
-                        CustomerList.Add(account);
-                    }
+                    thisCustomer = customer;
+                    return thisCustomer;
                 }
-                */
+                
             }
+            return null;
 
 
         }
 
         //TODO: När customer klassen är klar lägg till detta
 
-        private bool AddCustomer(string name, int prsnNumber)
+        //*
+        private bool AddCustomer(string name, string prsnNumber)
         {
             bool unique = true;
             foreach(Customer customer in GlobalCustomerList)
@@ -81,31 +76,39 @@ namespace Grupp_3_BankApp
 
         }
 
-
-        public bool ChangeCustomerName(string newName, int prsnNumber) 
+        //*
+        public bool ChangeCustomerName(string newName, string prsnNumber) 
         {
-
-            List<Customer> CustomerList = GlobalCustomerList;
             
-            foreach(Customer customer in CustomerList)
+            foreach(Customer customer in GlobalCustomerList)
             {              
                 if (customer.PrsnNumber == prsnNumber)
                 {
+                    customer.Name = newName;
+                    int index = GlobalCustomerList.IndexOf(customer);
+                    GlobalCustomerList[index] = customer;
 
 
+                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+                    List<string> customerAccounts = customer.GetAccountsToString(customer);
+                    
+                    string joined = string.Join(" : ", customerAccounts);
 
+                    string changedLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+                    File.WriteAllLines(filePath, customerList);
+                  
                     return true;
                 }
 
-                //Ändra filen
                 
             }         
             return false;
         }
-        public bool RemoveCustomer(int prsnNumber)
+
+        //*
+        public bool RemoveCustomer(string prsnNumber)
         {
-            throw new NotImplementedException();
-            /*
+            
             foreach (Customer customer in GlobalCustomerList)
             {
                 if(customer.PrsnNumber == prsnNumber)
@@ -116,7 +119,7 @@ namespace Grupp_3_BankApp
                     GlobalCustomerList.Remove(customer);
 
                     //Skapa och överför alla utom den som tas bort till textfilen
-                    List<string> tempList = new List<string>(File.ReadAllLines("customers.txt"));
+                    List<string> tempList = new List<string>(File.ReadAllLines(filePath));
                     List<string> newList = new List<string>();
                     for (int Line = 0; Line < tempList.Count; Line++)
                     {
@@ -125,40 +128,68 @@ namespace Grupp_3_BankApp
                             newList.Add(tempList[Line]);
                         }
                         //När allt är implementerat se till att detta fungerar
-                        File.WriteAllLines("customers.txt", newList);
+                        File.WriteAllLines(filePath, newList);
+                        return true;
                     }
+                 }
+            }
+            return false;
+        }
+        
+        //*
+        public int AddSavingsAccount(string prsnNumber)
+        {
+            string[] newAccountNr = new string[2];
+            foreach (Customer customer in GlobalCustomerList)
+            {
+                if (customer.PrsnNumber == prsnNumber)
+                {
+                    customer.AddAccount(new SavingsAccount());
+                    int index = GlobalCustomerList.IndexOf(customer);
 
+                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
 
+                    List<string> accounts = customer.GetAccountsToString(customer);
+                    string joined = string.Join(" : ", accounts);
+
+                    string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+
+                    customerList[index] = newLine;
+                    File.WriteAllLines(filePath, customerList);
+
+                    newAccountNr = accounts[accounts.Count - 1].Split(" , ");
 
                 }
             }
-            */
-
+            return Convert.ToInt32(newAccountNr[0]);
         }
 
-        public int AddSavingsaccount(int prsnNumber)
+
+        public bool Startup()
         {
-            //Kommer behövas ändras till List<Customer> när cusotmer klassen har pushats
-            List<Customer> CustomerFile = InterpretFile(ReadCustomerFile());
-
-            
-
-
-            return 0;
+            try
+            {
+                InterpretFile(ReadCustomerFile());
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("File reading Error");
+            }
+            return false;
         }
 
         //TODO: När customer klassen är klar lägg till detta
-        //Kan hända att ändra List<string> till List<customer>
         private List<Customer> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
 
-            //CustomerFile.Add("Andreas Boräng - 6376904824 ; 1 , 64362 : 2 , 52");
+            CustomerFile.Add("Andreas Boräng - 123456781234 ; 1 , 64362 : 2 , 52");
 
             List<Customer> CustomerList = new List<Customer>();
             string[] getName = new string[2];
             string[] getPrsnNumber = new string[2];
-            List<string> getAccounts = new List<string>();
+            List<SavingsAccount> getAccounts = new List<SavingsAccount>();
 
             for(int i = 0; i < CustomerFile.Count; i++)
             {
@@ -168,20 +199,19 @@ namespace Grupp_3_BankApp
 
                 foreach (string account in tempAccount)
                 {
-                    getAccounts.Add(account);
+                    int accountNumber = account[0];
+                    int saldo = account[1];
+                    getAccounts.Add(new SavingsAccount(accountNumber, saldo));
                 }
             }
 
-            //TODO: När customer klassen är klar fixa under
-
             foreach (string customer in CustomerFile)
             {
-                string tempAccounts = string.Join(" : ", getAccounts);
-                //CustomerList.Add(new Customer(getName[0], Convert.ToInt32(getPrsnNumber[0]), getAccounts));
+                //This causes an infinite loop and i dont know why
+                CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
 
-                //GlobalCustomerList.Add(new Customer { getName, getPrsnNumber, getAccounts });
+                GlobalCustomerList.Add(CustomerList[CustomerList.Count - 1]);
             }
-            Console.WriteLine(getAccounts.Count);
             return CustomerList;
         }
         private List<string> ReadCustomerFile()
@@ -195,12 +225,12 @@ namespace Grupp_3_BankApp
 
             List<string> CustomerList;
 
-            if (!File.Exists("Customers.txt"))
+            if (!File.Exists(filePath))
             {
-                File.Create("Customers.txt");
+                File.Create(filePath);
                 return CustomerList = new List<string>();
             }
-            CustomerList = new List<string>(File.ReadAllLines("Customers.txt"));
+            CustomerList = new List<string>(File.ReadAllLines(filePath));
             return CustomerList;
         }
     }

@@ -7,18 +7,18 @@ namespace Grupp_3_BankApp
     class Customer : BankLogic
     {
         public string Name { get; set; } //Ex. John Doe
-        public int PrsnNumber { get; } //Ex. 20201212-1234
+        public string PrsnNumber { get; } //Ex. 202012121234
 
         public List<SavingsAccount> Accounts { get; } = new List<SavingsAccount>();
 
 
-        public Customer(string name, int id)
+        public Customer(string name, string id)
         {
             Name = name;
             PrsnNumber = id;
         }
 
-        public Customer(string name, int id, List<SavingsAccount> accounts)
+        public Customer(string name, string id, List<SavingsAccount> accounts)
         {
             Name = name;
             PrsnNumber = id;
@@ -41,10 +41,10 @@ namespace Grupp_3_BankApp
             Console.WriteLine("Type your Social Security Number (YYYYMMDDXXXX)");
             try
             {
-                int prsnNumber = Convert.ToInt32(Console.ReadLine());
+                string prsnNumber = Console.ReadLine();
                 var myAccount = new SavingsAccount();
                 Accounts.Add(myAccount);
-                AddSavingsaccount(prsnNumber);
+                AddSavingsAccount(prsnNumber);
             }
             catch
             {
@@ -60,7 +60,7 @@ namespace Grupp_3_BankApp
             Console.WriteLine("Type your Social Security Number (YYYYMMDDXXXX)");
             try
             {
-                int prsnNumber = Convert.ToInt32(Console.ReadLine());
+                string prsnNumber = Console.ReadLine();
                 Console.WriteLine("Type your name");
                 Name = Console.ReadLine();
 
@@ -85,6 +85,59 @@ namespace Grupp_3_BankApp
             }
 
             return sb.ToString();
+        }
+
+        //public bool Deposit()
+        // {
+        //    Console.WriteLine("Type the Social Security Number (YYYYMMDDXXXX) to deposit money");
+        //    try
+        //     {
+        //        string prsnNumber = Console.ReadLine();
+        //        Console.WriteLine("Which account would you like to deposit to?");
+        //        //Accounts = Console.ReadLine();
+        //
+        //        
+        //     }
+        //    catch
+        //    {
+        //        Console.WriteLine("Error");
+        //         return false;
+
+        //
+        //
+        //     return true;
+        //  }
+
+        public List<string> GetAccountsToString(Customer customer)
+        {
+            List<string> accounts = new List<string>();
+            foreach (SavingsAccount account in customer.Accounts)
+            {
+                accounts.Add($"{account.kontonummer} , {account.Saldo}");
+            }
+            return accounts;
+        }
+
+        public void Menu()
+        {
+            Console.WriteLine("Enter 1 to add new account, 2 to change name, 3 to check info about your account, 4 to deposit");
+            string StringMenu = Console.ReadLine();
+            int NextChoice = Convert.ToInt32(StringMenu);
+            switch (NextChoice)
+            {
+                case 1:
+                    AddNewAccount();
+                    break;
+                case 2:
+                    //Deposit();
+                    break;
+                case 3:
+                    //GetCustomer();
+                    break;
+                case 4:
+                   // insättning();
+                    break;
+            }
         }
     }
 }
