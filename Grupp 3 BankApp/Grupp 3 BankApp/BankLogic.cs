@@ -7,108 +7,176 @@ namespace Grupp_3_BankApp
 {
     class BankLogic
     {
-<<<<<<< HEAD
-        public string Namn { get; set; }
-        public string Efternamn { get; set; }
-        public long Personnummer { get; set; }
 
+        private List<Customer> GlobalCustomerList = new List<Customer>();          
 
- 
-
-        public bool ChangeCustomerName(string name, long pNr)
+        public BankLogic()
         {
-            //byter namn på costumer genom pnr (true om namnet ändrades annars false)
+            //Endast för testning
+            //InterpretFile(ReadCustomerFile());
         }
 
-        public List<string> RemoveCustomer(long pNr)
-        {
-            // tar bort costumer genom pnr och alla comstumers konton, returnera lista på alla konton, saldo som de får (plus ränta)
-        }
-
-        public int AddSavingsAccount(long pNr)
-        {
-            //skapar konto med costumers pnr och returnerar den skapade kontons nummer
-        }
-
-        public string GetAccount(long pNr, int accountId)
-        {
-            //returnerar string med (kontonummer, saldo, kontotyp, räntesats) 
-        }
-
-        public bool Deposit(long pNr, int accountId, decimal amount)
-        {
-            //deposit med costumer pnr och accountid samt amout av deposit ( true om det gick annars false)
-        }
-
-        public bool Withdraw(long pNr, int accountId, decimal amount)
-        {
-            //whitdraw med costumer pnr och accountid samt amout av whitdraw ( true om det gick annars false)
-        }
-
-        public string CloseAccount(long pNr, int accountId)
-        {
-            Console.WriteLine("konto ");
-            //stänger konto med costumer pnr och accid, returnerar saldo och ränta
-=======
 
 
 
-
-
-
-
-
-
+        //*
         private List<string> GetAllCustomers(List<Customer> GlobalCustomerList)
         {
-            throw new NotImplementedException();
             List<string> CustomerList = new List<string>();
 
             foreach (Customer customer in GlobalCustomerList)
             {
-                //string[] customerValues = new string[2] { customer.Name, customer.PrsnNumber };
-                //String.Join(" : ", customerValues);
+                string[] customerValues = new string[2] { customer.Name, customer.PrsnNumber };
+                string.Join(" : ", customerValues);
             }
             return CustomerList;
         }
 
-        private List<string> GetCustomer(List<Customer> GlobalCustomerList, int prsnNumber)
+        //*
+        private Customer GetCustomer(string prsnNumber)
         {
             throw new NotImplementedException();
-            List<string> CustomerList = new List<string>();
+            Customer thisCustomer;
 
             foreach(Customer customer in GlobalCustomerList)
             {
-                /*
+                
                 if(customer.PrsnNumber == prsnNumber)
                 {
-                    CustomerList.Add(customer.Name);
-                    CustomerList.Add(customer.prsnNumber);
-
-                    //TODO: Ändra Konton till dess riktiga namn
-                    foreach(SavingsAccount account in customer.Konton)
-                    {
-                        CustomerList.Add(account);
-                    }
+                    thisCustomer = customer;
+                    return thisCustomer;
                 }
-                */
+                
             }
+            return null;
 
 
         }
 
         //TODO: När customer klassen är klar lägg till detta
-        private List<Customer> InterpretFile(List<string> CustomerFile)
+
+        //*
+        private bool AddCustomer(string name, string prsnNumber)
+        {
+            bool unique = true;
+            foreach(Customer customer in GlobalCustomerList)
+            {
+                if (customer.PrsnNumber == prsnNumber)
+                {
+                    unique = false;
+                }
+            }
+            if (unique)
+            {
+                File.AppendText($"{name} - {prsnNumber} ; ");
+                new Customer(name, prsnNumber);
+                return true;
+            }
+
+            return false;
+
+        }
+
+
+        public bool ChangeCustomerName(string newName, string prsnNumber) 
+        {
+
+            List<Customer> CustomerList = GlobalCustomerList;
+            
+            foreach(Customer customer in CustomerList)
+            {              
+                if (customer.PrsnNumber == prsnNumber)
+                {
+
+
+
+                    return true;
+                }
+
+                //Ändra filen
+                
+            }         
+            return false;
+        }
+
+        public bool RemoveCustomer(int prsnNumber)
         {
             throw new NotImplementedException();
-            List<Customer> CustomerList = new List<Customer>();
-            foreach(string customer in CustomerFile)
+            /*
+            foreach (Customer customer in GlobalCustomerList)
             {
-                
+                if(customer.PrsnNumber == prsnNumber)
+                {
+                    //Hämta indexet
+                    int index = GlobalCustomerList.IndexOf(customer);
+                    //Ta bort Customer från globala listan
+                    GlobalCustomerList.Remove(customer);
+
+                    //Skapa och överför alla utom den som tas bort till textfilen
+                    List<string> tempList = new List<string>(File.ReadAllLines("customers.txt"));
+                    List<string> newList = new List<string>();
+                    for (int Line = 0; Line < tempList.Count; Line++)
+                    {
+                        if (Line != index)
+                        {
+                            newList.Add(tempList[Line]);
+                        }
+                        //När allt är implementerat se till att detta fungerar
+                        File.WriteAllLines("customers.txt", newList);
+                    }
 
 
 
+                }
             }
+            */
+
+        }
+
+        public int AddSavingsaccount(int prsnNumber)
+        {
+            //Kommer behövas ändras till List<Customer> när cusotmer klassen har pushats
+
+            
+
+
+            return 0;
+        }
+
+        //TODO: När customer klassen är klar lägg till detta
+        private List<Customer> InterpretFile(List<string> CustomerFile)
+        {
+            Console.WriteLine("Interpreting...");
+
+            CustomerFile.Add("Andreas Boräng - 123456781234 ; 1 , 64362 : 2 , 52");
+
+            List<Customer> CustomerList = new List<Customer>();
+            string[] getName = new string[2];
+            string[] getPrsnNumber = new string[2];
+            List<SavingsAccount> getAccounts = new List<SavingsAccount>();
+
+            for(int i = 0; i < CustomerFile.Count; i++)
+            {
+                getName = CustomerFile[i].Split(" - ");
+                getPrsnNumber = getName[1].Split(" ; ");
+                string[] tempAccount = getPrsnNumber[1].Split(" : ");
+
+                foreach (string account in tempAccount)
+                {
+                    int accountNumber = account[0];
+                    int saldo = account[1];
+                    getAccounts.Add(new SavingsAccount(accountNumber, saldo));
+                }
+            }
+
+            foreach (string customer in CustomerFile)
+            {
+                //This causes an infinite loop and i dont know why
+                CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
+
+                GlobalCustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
+            }
+            return CustomerList;
         }
         private List<string> ReadCustomerFile()
         {
@@ -117,6 +185,8 @@ namespace Grupp_3_BankApp
              * Namn - ååååmmddxxxx ; konto , saldo : konto2 , saldo
             */
 
+            Console.WriteLine("Reading...");
+
             List<string> CustomerList;
 
             if (!File.Exists("Customers.txt"))
@@ -124,10 +194,8 @@ namespace Grupp_3_BankApp
                 File.Create("Customers.txt");
                 return CustomerList = new List<string>();
             }
-            string[] ReadCustomerFile = File.ReadAllLines("Customers.txt");
-            CustomerList = new List<string>(ReadCustomerFile);
+            CustomerList = new List<string>(File.ReadAllLines("Customers.txt"));
             return CustomerList;
->>>>>>> 4434a37fe16d72a119b37182f8175b6fd86499a6
         }
     }
 }
