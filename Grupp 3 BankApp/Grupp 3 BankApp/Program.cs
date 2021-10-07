@@ -7,8 +7,9 @@ namespace Grupp_3_BankApp
         static void Main(string[] args)
         {
             BankLogic test = new BankLogic();
+            test.Startup();
 
-            //Customer.Menu();
+
         }
     }
 }

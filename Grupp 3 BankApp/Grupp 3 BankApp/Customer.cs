@@ -41,10 +41,10 @@ namespace Grupp_3_BankApp
             Console.WriteLine("Type your Social Security Number (YYYYMMDDXXXX)");
             try
             {
-                int prsnNumber = Convert.ToInt32(Console.ReadLine());
+                string prsnNumber = Console.ReadLine();
                 var myAccount = new SavingsAccount();
                 Accounts.Add(myAccount);
-                AddSavingsaccount(prsnNumber);
+                AddSavingsAccount(prsnNumber);
             }
             catch
             {
