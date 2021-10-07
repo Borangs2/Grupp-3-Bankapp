@@ -38,7 +38,7 @@ namespace Grupp_3_BankApp
         //*
         //Fetches a customer from the the global customer list
         //Returns the customer of type Customer
-        private Customer GetCustomer(string prsnNumber)
+        public Customer GetCustomer(string prsnNumber)
         {
             Customer thisCustomer;
 
@@ -231,7 +231,6 @@ namespace Grupp_3_BankApp
             }
             return false;
         }
-
 
         //*
         //Call on startup to fetch and create files and the global customer list

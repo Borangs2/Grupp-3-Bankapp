@@ -66,7 +66,7 @@ class SavingsAccount
             return $"kontonummer: {Kontonummer} \n" +
                 $"saldo: {kontosaldo} \n" +
                 $"kontotyp: Sparkonto" +
-                $"\nkontotyp: {kontoräntesats}";
+                $"\nRäntesats: {kontoräntesats}%";
         }
 
         
