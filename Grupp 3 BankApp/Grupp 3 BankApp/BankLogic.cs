@@ -17,6 +17,7 @@ namespace Grupp_3_BankApp
 
 
         //* = färdigt men otestat
+        //- = färdigt och testat
 
         //*
         private List<string> GetAllCustomers(List<Customer> GlobalCustomerList)
@@ -34,7 +35,6 @@ namespace Grupp_3_BankApp
         //*
         private Customer GetCustomer(string prsnNumber)
         {
-            throw new NotImplementedException();
             Customer thisCustomer;
 
             foreach(Customer customer in GlobalCustomerList)
@@ -76,23 +76,30 @@ namespace Grupp_3_BankApp
 
         }
 
-
+        //*
         public bool ChangeCustomerName(string newName, string prsnNumber) 
         {
-
-            List<Customer> CustomerList = GlobalCustomerList;
             
-            foreach(Customer customer in CustomerList)
+            foreach(Customer customer in GlobalCustomerList)
             {              
                 if (customer.PrsnNumber == prsnNumber)
                 {
                     customer.Name = newName;
-                    
+                    int index = GlobalCustomerList.IndexOf(customer);
+                    GlobalCustomerList[index] = customer;
 
+
+                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+                    List<string> customerAccounts = customer.GetAccountsToString(customer);
+                    
+                    string joined = string.Join(" : ", customerAccounts);
+
+                    string changedLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+                    File.WriteAllLines(filePath, customerList);
+                  
                     return true;
                 }
 
-                //Ändra filen
                 
             }         
             return false;
@@ -139,6 +146,7 @@ namespace Grupp_3_BankApp
                 {
                     customer.AddAccount(new SavingsAccount());
                     int index = GlobalCustomerList.IndexOf(customer);
+
                     List<string> customerList = new List<string>(File.ReadAllLines(filePath));
 
                     List<string> accounts = customer.GetAccountsToString(customer);
@@ -155,9 +163,6 @@ namespace Grupp_3_BankApp
             }
             return Convert.ToInt32(newAccountNr[0]);
         }
-
-
-
 
 
         public bool Startup()
