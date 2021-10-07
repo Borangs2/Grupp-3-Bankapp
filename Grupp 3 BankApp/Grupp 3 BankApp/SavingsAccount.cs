@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Grupp_3_BankApp
 {
-class SavingsAccount : BankLogic
+class SavingsAccount
     {
 
         private protected double kontosaldo;
