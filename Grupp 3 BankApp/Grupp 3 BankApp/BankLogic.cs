@@ -17,7 +17,7 @@ namespace Grupp_3_BankApp
         }
 
 
-
+        //* = färdigt men otestat
 
         //*
         private List<string> GetAllCustomers(List<Customer> GlobalCustomerList)
@@ -102,7 +102,6 @@ namespace Grupp_3_BankApp
         //*
         public bool RemoveCustomer(string prsnNumber)
         {
-            throw new NotImplementedException();
             
             foreach (Customer customer in GlobalCustomerList)
             {
@@ -124,11 +123,14 @@ namespace Grupp_3_BankApp
                         }
                         //När allt är implementerat se till att detta fungerar
                         File.WriteAllLines(filePath, newList);
+                        return true;
                     }
                  }
             }
+            return false;
         }
-
+        
+        //*
         public int AddSavingsAccount(string prsnNumber)
         {
             string[] newAccountNr = new string[2];
@@ -154,6 +156,12 @@ namespace Grupp_3_BankApp
             }
             return Convert.ToInt32(newAccountNr[0]);
         }
+
+
+
+
+
+
 
         //TODO: När customer klassen är klar lägg till detta
         private List<Customer> InterpretFile(List<string> CustomerFile)
@@ -186,7 +194,7 @@ namespace Grupp_3_BankApp
                 //This causes an infinite loop and i dont know why
                 CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
 
-                GlobalCustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
+                GlobalCustomerList.Add(CustomerList[CustomerList.Count - 1]);
             }
             return CustomerList;
         }
