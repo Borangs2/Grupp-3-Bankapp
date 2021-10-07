@@ -80,5 +80,7 @@ class SavingsAccount : BankLogic
                 $"kontotyp: Sparkonto" +
                 $"\nkontotyp: {kontoräntesats}";
         }
+
+        
     }
 }

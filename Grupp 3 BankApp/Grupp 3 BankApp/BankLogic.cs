@@ -8,8 +8,8 @@ namespace Grupp_3_BankApp
     class BankLogic
     {
 
-        private List<Customer> GlobalCustomerList = new List<Customer>();          
-
+        private List<Customer> GlobalCustomerList = new List<Customer>();
+        private string filePath = "Customers.txt";
         public BankLogic()
         {
             //Endast för testning
@@ -87,8 +87,8 @@ namespace Grupp_3_BankApp
             {              
                 if (customer.PrsnNumber == prsnNumber)
                 {
-
-
+                    customer.Name = newName;
+                    
 
                     return true;
                 }
@@ -99,10 +99,11 @@ namespace Grupp_3_BankApp
             return false;
         }
 
-        public bool RemoveCustomer(int prsnNumber)
+        //*
+        public bool RemoveCustomer(string prsnNumber)
         {
             throw new NotImplementedException();
-            /*
+            
             foreach (Customer customer in GlobalCustomerList)
             {
                 if(customer.PrsnNumber == prsnNumber)
@@ -113,7 +114,7 @@ namespace Grupp_3_BankApp
                     GlobalCustomerList.Remove(customer);
 
                     //Skapa och överför alla utom den som tas bort till textfilen
-                    List<string> tempList = new List<string>(File.ReadAllLines("customers.txt"));
+                    List<string> tempList = new List<string>(File.ReadAllLines(filePath));
                     List<string> newList = new List<string>();
                     for (int Line = 0; Line < tempList.Count; Line++)
                     {
@@ -122,25 +123,36 @@ namespace Grupp_3_BankApp
                             newList.Add(tempList[Line]);
                         }
                         //När allt är implementerat se till att detta fungerar
-                        File.WriteAllLines("customers.txt", newList);
+                        File.WriteAllLines(filePath, newList);
                     }
+                 }
+            }
+        }
 
+        public int AddSavingsAccount(string prsnNumber)
+        {
+            string[] newAccountNr = new string[2];
+            foreach (Customer customer in GlobalCustomerList)
+            {
+                if (customer.PrsnNumber == prsnNumber)
+                {
+                    customer.AddAccount(new SavingsAccount());
+                    int index = GlobalCustomerList.IndexOf(customer);
+                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
 
+                    List<string> accounts = customer.GetAccountsToString(customer);
+                    string joined = string.Join(" : ", accounts);
+
+                    string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+
+                    customerList[index] = newLine;
+                    File.WriteAllLines(filePath, customerList);
+
+                    newAccountNr = accounts[accounts.Count - 1].Split(" , ");
 
                 }
             }
-            */
-
-        }
-
-        public int AddSavingsaccount(int prsnNumber)
-        {
-            //Kommer behövas ändras till List<Customer> när cusotmer klassen har pushats
-
-            
-
-
-            return 0;
+            return Convert.ToInt32(newAccountNr[0]);
         }
 
         //TODO: När customer klassen är klar lägg till detta
@@ -189,12 +201,12 @@ namespace Grupp_3_BankApp
 
             List<string> CustomerList;
 
-            if (!File.Exists("Customers.txt"))
+            if (!File.Exists(filePath))
             {
-                File.Create("Customers.txt");
+                File.Create(filePath);
                 return CustomerList = new List<string>();
             }
-            CustomerList = new List<string>(File.ReadAllLines("Customers.txt"));
+            CustomerList = new List<string>(File.ReadAllLines(filePath));
             return CustomerList;
         }
     }
