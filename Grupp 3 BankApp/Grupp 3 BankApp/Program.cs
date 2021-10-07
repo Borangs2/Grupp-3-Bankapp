@@ -15,7 +15,7 @@ namespace Grupp_3_BankApp
         public void Menu()
         {
             
-            Console.WriteLine("Welcome to KYH BANK, please enter your Social Security number... (YYYY/MM/DD-NNNN)");
+            Console.WriteLine("Welcome to KYH BANK, please enter your Social Security number... (YYYYMMDDNNNN)");
             string prsnnmr = Console.ReadLine();
             int PrsnNumber = (int)Convert.ToInt64(prsnnmr);
             Console.WriteLine("Enter 1 to manage your account, 2 to edit your account, 3 to get quick info about your account or 4 to close KYH BANK.");
@@ -74,30 +74,34 @@ namespace Grupp_3_BankApp
                 case 4:
                     //CloseApp();
                     break;
-                case 6:
-                    //Admin meny
-                    Console.WriteLine("1 add acc, 2 all customers, 3 main menu, 4 close.");
-                    string AdminMenu = Console.ReadLine();
-                    int AdminChoice = Convert.ToInt32(AdminMenu);
-                    switch (AdminChoice)
-                    {
-                        case 1:
-                            //addaccount();
-                            break;
-                        case 2:
-                            //AllCustomers();
-                            break;
-                        case 3:
-                            Menu();
-                            break;
-                        case 4:
-                            //closeapp();
-                            break;
-                    }
-                    break;
-                case 9:
-                    //ChangeLang();
-                    break;
+               //case 6:
+               //    
+               //     break;
+               //case 9:
+               //    //ChangeLang();
+               //    break;
+            }
+            if (Choice == 1111) //1111 = adminlösen
+            {
+                //Admin meny
+                Console.WriteLine("1 add acc, 2 all customers, 3 main menu, 4 close.");
+                string AdminMenu = Console.ReadLine();
+                int AdminChoice = Convert.ToInt32(AdminMenu);
+                switch (AdminChoice)
+                {
+                    case 1:
+                        //addaccount();
+                        break;
+                    case 2:
+                        //AllCustomers();
+                        break;
+                    case 3:
+                        Menu();
+                        break;
+                    case 4:
+                        //closeapp();
+                        break;
+                }
             }
         }
     }
