@@ -61,18 +61,6 @@ class SavingsAccount
 
         public string kontotyp = "sparkonto";
 
-        public double Insättning(double kronor)
-        {
-            kontosaldo += kronor;
-            return kontosaldo;
-        }
-
-        public double Uttag(double kronor)
-        {
-            kontosaldo -= kronor;
-            return kontosaldo;
-        }
-
         public override string ToString()
         {
             return $"kontonummer: {Kontonummer} \n" +

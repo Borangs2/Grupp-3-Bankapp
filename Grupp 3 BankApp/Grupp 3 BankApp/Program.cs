@@ -10,7 +10,8 @@ namespace Grupp_3_BankApp
             test.Startup();
             Program program = new Program();
             program.Menu();
-
+            new Customer("andreas", "6732906702");
+            
         }
         public void Menu()
         {
@@ -19,12 +20,13 @@ namespace Grupp_3_BankApp
             string prsnnmr = Console.ReadLine();
             int PrsnNumber = (int)Convert.ToInt64(prsnnmr);
             Console.WriteLine("Enter 1 to manage your account, 2 to edit your account, 3 to get quick info about your account or 4 to close KYH BANK.");
-            Console.WriteLine("(for swedish please press 9)");
+            //Console.WriteLine("(for swedish please press 9)");
             string StringMenu1 = Console.ReadLine();
             int Choice = Convert.ToInt32(StringMenu1);
             switch (Choice)
             {
                 case 1:
+                    Console.WriteLine($"What do you want to do")
                     Console.WriteLine("Enter 1 to create a new account, 2 to see info about your account, 3 to deposit, 4 to withdraw or 5 to close an account.");
                     Console.WriteLine("(Enter 6 to get back to the main menu)");
                     string StringMenu3 = Console.ReadLine();
