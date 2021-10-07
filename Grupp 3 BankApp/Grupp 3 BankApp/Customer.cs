@@ -78,12 +78,12 @@ namespace Grupp_3_BankApp
 
         public string FetchInfo()
         {
-            var sb = new StringBuilder("Customer Name:" + Name);
-            sb.Append("\nCustomer Id:" + PrsnNumber);
+            var sb = new StringBuilder("Name:" + Name);
+            sb.Append("$Id: {PrsnNumber}\n");
 
             foreach (var account in Accounts)
             {
-                sb.Append("\nAccount:" + account);
+                sb.Append($"\nAccount: {account} \n");
             }
 
             return sb.ToString();

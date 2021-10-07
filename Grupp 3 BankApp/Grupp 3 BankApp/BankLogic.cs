@@ -38,7 +38,7 @@ namespace Grupp_3_BankApp
         //*
         //Fetches a customer from the the global customer list
         //Returns the customer of type Customer
-        private Customer GetCustomer(string prsnNumber)
+        public Customer GetCustomer(string prsnNumber)
         {
             Customer thisCustomer;
 
@@ -176,6 +176,60 @@ namespace Grupp_3_BankApp
                 }
             }
             return Convert.ToInt32(newAccountNr[0]);
+        }
+
+        //*
+        //Adds money to a customers account
+        //Return true if it succeded otherwise false
+        public bool Insättning(string prsnNumber, int kontoNummer, double kronor)
+        {
+            foreach (Customer customer in GlobalCustomerList)
+            {
+                if (customer.PrsnNumber == prsnNumber)
+                {
+                    foreach (SavingsAccount account in customer.Accounts)
+                    {
+                        try
+                        {
+                            account.Saldo += kronor;
+                            return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+                }
+            }
+            return false;
+        }
+
+        //*
+        //Withdraws money from a customers account
+        //returns true if it succeded otherwise false
+        public bool Uttag(string prsnNumber, int kontoNummer, double kronor)
+        {
+            foreach(Customer customer in GlobalCustomerList)
+            {
+                if(customer.PrsnNumber == prsnNumber)
+                {
+                   foreach(SavingsAccount account in customer.Accounts)
+                    {
+                        try
+                        {
+                            account.Saldo -= kronor;
+                            return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+                }
+            }
+            return false;
         }
 
         //*
