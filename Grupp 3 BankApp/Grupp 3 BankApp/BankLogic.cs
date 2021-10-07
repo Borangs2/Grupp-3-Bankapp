@@ -7,13 +7,12 @@ namespace Grupp_3_BankApp
 {
     class BankLogic
     {
-
+        //Lista med alla customers för användning i denna klass
         private List<Customer> GlobalCustomerList = new List<Customer>();
         private string filePath = "Customers.txt";
         public BankLogic()
         {
             //Endast för testning
-            //InterpretFile(ReadCustomerFile());
         }
 
 
@@ -161,7 +160,19 @@ namespace Grupp_3_BankApp
 
 
 
-
+        public bool Startup()
+        {
+            try
+            {
+                InterpretFile(ReadCustomerFile());
+                return true;
+            }
+            catch
+            {
+                Console.WriteLine("File reading Error");
+            }
+            return false;
+        }
 
         //TODO: När customer klassen är klar lägg till detta
         private List<Customer> InterpretFile(List<string> CustomerFile)
