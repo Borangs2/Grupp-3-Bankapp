@@ -55,7 +55,7 @@ namespace Grupp_3_BankApp
                                     Environment.Exit(0);
                                     break;
                                 case 6:
-                                    AdminMenu();
+                                    AdminMenu(bank);
                                     //Admin meny                               
                                     break;
                                 case 9:
@@ -103,8 +103,8 @@ namespace Grupp_3_BankApp
                 "4. Withdraw from an account\n" +
                 "5. Close an account\n" +
                 "6. Return to the main menu\n");
-            //try
-            //{
+            try
+            {
                 int choice = Convert.ToInt32(Console.ReadLine());
                 switch (choice)
                 {
@@ -131,11 +131,11 @@ namespace Grupp_3_BankApp
                         Console.WriteLine("Unknown command");
                         break;
                 }
-            //}
-            //catch
-            //{
-            //    Console.WriteLine("Please write a number listed above");
-            //}           
+            }
+            catch
+            {
+                Console.WriteLine("Please write a number listed above");
+            }
         }
         private void ChangeAccountMenu()
         {
@@ -168,29 +168,9 @@ namespace Grupp_3_BankApp
             }
             
         }
-        private void AdminMenu()
+        private void AdminMenu(BankLogic bank)
         {
-            Console.WriteLine("1 add acc, 2 all customers, 3 main menu, 4 close.");
-            string AdminMenu = Console.ReadLine();
-            int AdminChoice = Convert.ToInt32(AdminMenu);
-            switch (AdminChoice)
-            {
-                case 1:
-                    //addaccount();
-                    break;
-                case 2:
-                    //AllCustomers();
-                    break;
-                case 3:
-                    return;
-                case 4:
-                    //closeapp();
-                    break;
-
-                default:
-                    Console.WriteLine("Unknown command");
-                    break;
-            }
+            bank.AdminMenu();
         }
     }
 }

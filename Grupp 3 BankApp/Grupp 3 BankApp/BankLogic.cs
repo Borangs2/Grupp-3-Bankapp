@@ -31,23 +31,80 @@ namespace Grupp_3_BankApp
         }
 
 
+        public void AdminMenu()
+        {
+            Console.WriteLine(
+                $"1. Add a customer\n" +
+                $"2. View All Customers\n" +
+                $"3. Go to the main menu\n" +
+                $"4. Close the application");
+            string AdminMenu = Console.ReadLine();
+            int AdminChoice = Convert.ToInt32(AdminMenu);
+            switch (AdminChoice)
+            {
+                case 1:
+                    Console.Write("Add new customer name:");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Add new customer Social Security Number");
+                    try
+                    {
+                        double prsnNumber = Convert.ToDouble(Console.ReadLine());
+                        if(AddCustomer(name, Convert.ToString(prsnNumber)))
+                        {
+                            Console.WriteLine("Customer added Succesfully");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error in adding customer");
+                        }
+
+                    }
+                    catch
+                    {
+                        Console.WriteLine("SSN must be a number");
+                    }
+                    break;
+                case 2:
+                    List<Customer> allCustomers = GetAllCustomers();
+                    foreach(Customer Customer in allCustomers)
+                    {
+                        Console.WriteLine(
+                            $"Name: {Customer.Name}\n" +
+                            $"ID: {Customer.PrsnNumber}\n" +
+                            $"Accounts:");
+                        foreach(SavingsAccount account in Customer.Accounts)
+                        {
+                            Console.WriteLine(
+                                $"Account{account.Kontonummer} - Saldo: {account.Saldo}");
+                        }
+                        Console.WriteLine("------------------------------------");
+                    }
+                    break;
+                case 3:
+                    return;
+                case 4:
+                    Console.WriteLine("Thank you for using KYH bank. We hope to se you later");
+                    Environment.Exit(0);
+                    break;
+
+                default:
+                    Console.WriteLine("Unknown command");
+                    break;
+            }
+        }
+
+
         //* = färdigt men otestat
         //- = färdigt och testat
+
 
         //*
         //Fetches all customers name and PrsnNumber
         //Returns a List<string> with all customers name and prsnNumber
         //File format: "Name - PernNumber"
-        private List<string> GetAllCustomers(List<Customer> GlobalCustomerList)
+        private List<Customer> GetAllCustomers()
         {
-            List<string> CustomerList = new List<string>();
-
-            foreach (Customer customer in GlobalCustomerList)
-            {
-                string[] customerValues = new string[2] { customer.Name, customer.PrsnNumber };
-                string.Join(" : ", customerValues);
-            }
-            return CustomerList;
+            return GlobalCustomerList;
         }
 
         //*
@@ -89,7 +146,9 @@ namespace Grupp_3_BankApp
             }
             if (unique)
             {
-                File.AppendText($"{name} - {prsnNumber} ; ");
+                List<string> newFile = ReadCustomerFile();
+                newFile.Add($"{name} - {prsnNumber} ; ");
+                File.WriteAllLines(filePath, newFile);
                 new Customer(name, prsnNumber);
                 return true;
             }
@@ -266,9 +325,6 @@ namespace Grupp_3_BankApp
         //Interprets the files read by the ReadCustomerFiles method
         //Returns a List<Customer> with every customer including accounts if any
         //Also this method sucks to work in and every problem i'm having leads back to it
-
-        //TODO: Fixa så att customers bara får sina egna accounts istället för allas
-
         private List<Customer> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
@@ -280,11 +336,10 @@ namespace Grupp_3_BankApp
             string[] getName = new string[2];
             string[] getPrsnNumber = new string[2];
             List<SavingsAccount> getAccounts = new List<SavingsAccount>();
-
-            string thisCustomer;
+            
             for(int i = 0; i < CustomerFile.Count; i++)
             {
-                thisCustomer = CustomerFile[i];
+                string thisCustomer = CustomerFile[i];
                 getName = thisCustomer.Split(" - ");
                 getPrsnNumber = getName[1].Split(" ; ");
                 string[] tempAccount = getPrsnNumber[1].Split(" : ");
