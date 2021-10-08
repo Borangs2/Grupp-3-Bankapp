@@ -2,13 +2,28 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace Grupp_3_BankApp
 {
     class BankLogic
     {
+        private static List<Customer> GlobalCustomerList { get; set; }
+        private void CreateGlobalCustomerList()
+        {
+            if (!GlobalCustomerListCheck)
+            {
+                GlobalCustomerList = new List<Customer>();
+                return;
+            }
+            GlobalCustomerListCheck = true;
+        }
+
+        private bool GlobalCustomerListCheck;
+
+
+
         //Lista med alla customers för användning i denna klass
-        private List<Customer> GlobalCustomerList = new List<Customer>();
         private string filePath = "Customers.txt";
         public BankLogic()
         {
@@ -146,36 +161,34 @@ namespace Grupp_3_BankApp
             }
             return false;
         }
-        
+
         //*
         //Creates a new savingsaccount in files
         //Returns the new account numbers
-        public int AddSavingsAccount(string prsnNumber)
+        public int AddSavingsAccount(Customer customer)
         {
-            string[] newAccountNr = new string[2];
-            foreach (Customer customer in GlobalCustomerList)
+            int index = GlobalCustomerList.IndexOf(customer);
+
+            List<string> customerAccounts = new List<string>();
+            foreach(SavingsAccount account in customer.Accounts)
             {
-                if (customer.PrsnNumber == prsnNumber)
-                {
-                    customer.AddAccount(new SavingsAccount());
-                    int index = GlobalCustomerList.IndexOf(customer);
-
-                    //Get all data
-                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
-                    //Get all accounts in a single string
-                    List<string> accounts = customer.GetAccountsToString(customer);
-                    string joined = string.Join(" : ", accounts);
-
-                    string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
-
-                    customerList[index] = newLine;
-                    File.WriteAllLines(filePath, customerList);
-
-                    newAccountNr = accounts[accounts.Count - 1].Split(" , ");
-
-                }
+                customerAccounts.Add($"{account.Kontonummer} , {account.Saldo}");
             }
-            return Convert.ToInt32(newAccountNr[0]);
+
+            //Get all data
+            List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+            //Get all accounts in a single string
+            string joined = string.Join(" : ", customerAccounts);
+
+            string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+
+            customerList[index] = newLine;
+            //File.WriteAllLines(filePath, customerList);
+
+            int maxNummer = customerAccounts.Count + 1;
+            customer.AddAccount(new SavingsAccount(customer, maxNummer + 1));
+
+            return maxNummer + 1;
         }
 
         //*
@@ -238,49 +251,61 @@ namespace Grupp_3_BankApp
         {
             try
             {
+                CreateGlobalCustomerList();
+
                 InterpretFile(ReadCustomerFile());
+                GlobalCustomerListCheck = true;
                 return true;
             }
             catch
             {
-                Console.WriteLine("File reading Error");
+                throw new FileErrorException();
             }
-            return false;
         }
 
         //Interprets the files read by the ReadCustomerFiles method
         //Returns a List<Customer> with every customer including accounts if any
+        //Also this method sucks to work in and every problem i'm having leads back to it
+
+        //TODO: Fixa så att customers bara får sina egna accounts istället för allas
+
         private List<Customer> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
 
-            CustomerFile.Add("Andreas Boräng - 123456781234 ; 1 , 64362 : 2 , 52");
+            //Endast för testning
+            //CustomerFile.Add("Andreas Boräng - 123456781234 ; 1 , 64362 : 2 , 52");
 
             List<Customer> CustomerList = new List<Customer>();
             string[] getName = new string[2];
             string[] getPrsnNumber = new string[2];
             List<SavingsAccount> getAccounts = new List<SavingsAccount>();
 
+            string thisCustomer;
             for(int i = 0; i < CustomerFile.Count; i++)
             {
-                getName = CustomerFile[i].Split(" - ");
+                thisCustomer = CustomerFile[i];
+                getName = thisCustomer.Split(" - ");
                 getPrsnNumber = getName[1].Split(" ; ");
                 string[] tempAccount = getPrsnNumber[1].Split(" : ");
-
+                getAccounts.Clear();
                 foreach (string account in tempAccount)
                 {
-                    int accountNumber = account[0];
-                    int saldo = account[1];
+                    string[] thisAccount = account.Split(" , ");
+                    int accountNumber = Convert.ToInt32(thisAccount[0]);
+                    int saldo = Convert.ToInt32(thisAccount[1]);
                     getAccounts.Add(new SavingsAccount(accountNumber, saldo));
                 }
-            }
-
-            foreach (string customer in CustomerFile)
-            {
                 CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
 
-                GlobalCustomerList.Add(CustomerList[CustomerList.Count - 1]);
             }
+
+            foreach (Customer customer in CustomerList)
+            {
+
+                GlobalCustomerList.Add(customer);
+            }
+
             return CustomerList;
         }
         
@@ -300,6 +325,14 @@ namespace Grupp_3_BankApp
             }
             CustomerList = new List<string>(File.ReadAllLines(filePath));
             return CustomerList;
+        }
+    }
+    
+    class FileErrorException : Exception
+    {
+        public FileErrorException() : base()
+        {
+            Console.WriteLine("File reading Error");
         }
     }
 }
