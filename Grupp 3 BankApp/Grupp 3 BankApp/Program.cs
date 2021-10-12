@@ -119,9 +119,21 @@ namespace Grupp_3_BankApp
                         break;
                     case 3:
                         //Insättning
+
+                        Console.WriteLine("write the account number to deposit: ");
+                        int kontoNummer = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("How much money: ");
+                        double kronor = Convert.ToDouble(Console.ReadLine());
+                        customer.Insättning(customer.PrsnNumber, kontoNummer, kronor);
+                        
                         break;
                     case 4:
                         //Uttag
+                        Console.WriteLine("write the account number to withdrawal: ");
+                        kontoNummer = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("How much money: ");
+                        kronor = Convert.ToDouble(Console.ReadLine());
+                        customer.Uttag(customer.PrsnNumber, kontoNummer, kronor);
                         break;
                     case 5:
                         //CloseAccount
