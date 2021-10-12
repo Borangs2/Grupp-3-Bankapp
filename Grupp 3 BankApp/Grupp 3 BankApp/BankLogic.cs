@@ -85,7 +85,7 @@ namespace Grupp_3_BankApp
                             }
                             Console.WriteLine("------------------------------------");
                         }
-                        break;
+                        return;
                     case 3:
                         return;
                     case 4:
