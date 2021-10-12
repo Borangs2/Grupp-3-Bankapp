@@ -102,73 +102,62 @@ namespace Grupp_3_BankApp
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
-            switch (choice)
-            {
-                case 1:
-                    int nyttKonto = customer.AddSavingsAccount(customer);
-                    Console.WriteLine($"A new account with the account number {nyttKonto} has been created");
-                    break;
-                case 2:
-                    //GetCustomer();
-                    foreach (SavingsAccount account in customer.Accounts)
-                    {
-                        account.PrintAccountInfo();
-                        Console.WriteLine("-------------------------------------------");
-                    }
-                    break;
-                case 3:
-                    //Insättning
-                    break;
-                case 4:
-                    //Uttag
-                    break;
-                case 5:
-                    //CloseAccount
-                    customer.RemoveAccount(customer);
-                    break;
-                case 6:
-                    return;
                 switch (choice)
                 {
                     case 1:
                         int nyttKonto = customer.AddSavingsAccount(customer);
                         Console.WriteLine($"A new account with the account number {nyttKonto} has been created");
                         break;
+
                     case 2:
                         //GetCustomer();
-                        foreach(SavingsAccount account in customer.Accounts)
+                        foreach (SavingsAccount account in customer.Accounts)
                         {
                             account.PrintAccountInfo();
                             Console.WriteLine("-------------------------------------------");
                         }
                         break;
+
                     case 3:
                         //Insättning
-
-                        Console.WriteLine("write the account number to deposit: ");
-                        int kontoNummer = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("How much money: ");
-                        double kronor = Convert.ToDouble(Console.ReadLine());
-                        customer.Insättning(customer.PrsnNumber, kontoNummer, kronor);
-                        
+                        try
+                        {
+                            Console.WriteLine("write the account number to deposit: ");
+                            int kontoNummer = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("How much money: ");
+                            double kronor = Convert.ToDouble(Console.ReadLine());
+                            customer.Insättning(customer.PrsnNumber, kontoNummer, kronor);
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Write a number");
+                        }
                         break;
+                        
+
                     case 4:
                         //Uttag
-                        Console.WriteLine("write the account number to withdrawal: ");
-                        kontoNummer = Convert.ToInt32(Console.ReadLine());
-                        Console.WriteLine("How much money: ");
-                        kronor = Convert.ToDouble(Console.ReadLine());
-                        customer.Uttag(customer.PrsnNumber, kontoNummer, kronor);
+                        try
+                        {
+                            Console.WriteLine("write the account number to withdrawal: ");
+                            int kontoNummer = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("How much money: ");
+                            double kronor = Convert.ToDouble(Console.ReadLine());
+                            customer.Uttag(customer.PrsnNumber, kontoNummer, kronor);
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Write a number");
+                        }
                         break;
+
                     case 5:
                         //CloseAccount
+                        customer.RemoveAccount(customer);
                         break;
+
                     case 6:
                         return;
-
-                    default:
-                        Console.WriteLine("Unknown command");
-                        break;
                 }
             }
             catch
