@@ -217,7 +217,7 @@ namespace Grupp_3_BankApp
 
         //*
         //Creates a new savingsaccount in files
-        //Returns the new account numbers
+        //Returns the new account number
         public int AddSavingsAccount(Customer customer)
         {
             int index = GlobalCustomerList.IndexOf(customer);
