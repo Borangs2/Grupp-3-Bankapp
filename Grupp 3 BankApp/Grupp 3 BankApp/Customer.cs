@@ -30,9 +30,38 @@ namespace Grupp_3_BankApp
             Accounts.Add(savingsAccount);
         }
 
-        public void RemoveAccount(SavingsAccount savingsAccount)
+        public void RemoveAccount(Customer customer)
         {
-            Accounts.Remove(savingsAccount);
+            Console.WriteLine("What account do you wish to remove: ");
+            try
+            {
+                int removeAccount = Convert.ToInt32(Console.ReadLine());
+                if (RemoveAccountFromFile(customer, removeAccount))
+                {
+                    SavingsAccount thisAccount = null;
+                    for(int index = 0; index < customer.Accounts.Count; index++)
+                    {
+                        if(Accounts[index].Kontonummer == removeAccount)
+                        {
+                            thisAccount = customer.Accounts[index];
+                            customer.Accounts.Remove(thisAccount);
+                            Console.WriteLine("Account removed Succesfully");
+                            //return true;
+                        }
+                    }
+                    
+                }
+                else
+                {
+                    Console.WriteLine("Applikation encountered an error removeing the account");
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Please write a number");
+            }
+            
+
         }
 
         //Oanvänd pga att den nollställer GlobalCustomerList av någon anledning
@@ -105,7 +134,5 @@ namespace Grupp_3_BankApp
             }
             return accounts;
         }
-
-        
     }
 }
