@@ -30,7 +30,6 @@ namespace Grupp_3_BankApp
                         "3. View account\n" +
                         "4. Exit and Log out\n");
 
-                        //Console.WriteLine("(for swedish please press 9)");
                         try
                         {
                             int stringMenu1 = Convert.ToInt32(Console.ReadLine());
@@ -48,7 +47,7 @@ namespace Grupp_3_BankApp
                                     break;
                                 case 4:
                                     //Exit application
-                                    Console.WriteLine("Thank you for using KYH bank. We hope to se you later");
+                                    Console.WriteLine("Thank you for using KYH bank. We hope to see you later");
                                     Environment.Exit(0);
                                     break;
                                 case 6:
@@ -67,7 +66,7 @@ namespace Grupp_3_BankApp
                         }
                         catch
                         {
-                            Console.WriteLine("Please write a number listed above");
+                            Console.WriteLine("Please write one of the numbers listed above");
                         }
 
 
@@ -148,7 +147,7 @@ namespace Grupp_3_BankApp
             }
             catch
             {
-                Console.WriteLine("Please write a number listed above");
+                Console.WriteLine("Please write one of the numbers listed above");
             }
         }
         private void ChangeAccountMenu(Customer customer)
@@ -181,7 +180,7 @@ namespace Grupp_3_BankApp
             }
             catch
             {
-                Console.WriteLine("Please write a number listed above");
+                Console.WriteLine("Please write one of the numbers listed above");
             }
             
         }
