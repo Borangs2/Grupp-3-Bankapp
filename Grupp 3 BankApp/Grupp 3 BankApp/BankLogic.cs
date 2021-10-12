@@ -57,6 +57,7 @@ namespace Grupp_3_BankApp
                             if (AddCustomer(name, Convert.ToString(prsnNumber)))
                             {
                                 Console.WriteLine("Customer added Succesfully");
+                                return;
                             }
                             else
                             {
