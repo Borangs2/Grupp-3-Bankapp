@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Grupp_3_BankApp
 {
@@ -14,35 +15,24 @@ class SavingsAccount
             set { if (value >= 0) kontosaldo = value; }
         }
 
-        public SavingsAccount()
+        public SavingsAccount(Customer customer, int kontonummer)
         {
-            global_kontonummer++;
-            Kontonummer = global_kontonummer;
+            kontonummer = IncrementKontonummer(customer);
+            Saldo = 0;
         }
 
         public SavingsAccount(int kontonummer, int saldo)
         {
-            Kontonummer = kontonummer;
+            _Kontonummer = kontonummer;
             Saldo = saldo;
         }
 
-        
-        /*
-        private protected string kontonamn;
-        public string namn
-        {
-            get { return kontonamn; }
-            set { if (value != "") kontonamn = value; }
-        }
-        */
-
-        private static int global_kontonummer = 1000;   // samma variabel för alla SavingsAccount objekt
-        private protected int Kontonummer;        // det här objektets kontonummer
-        public int kontonummer
+        private protected int _Kontonummer;        // det här objektets kontonummer
+        public int Kontonummer
         {
 
-            get { return Kontonummer; }
-            set { Kontonummer = value; }
+            get { return _Kontonummer; }
+            set { _Kontonummer = value; }
         }
 
 
@@ -61,12 +51,24 @@ class SavingsAccount
 
         public string kontotyp = "sparkonto";
 
-        public override string ToString()
+        public string PrintAccountInfo()
         {
-            return $"kontonummer: {Kontonummer} \n" +
+            return $"kontonummer: {_Kontonummer} \n" +
                 $"saldo: {kontosaldo} \n" +
                 $"kontotyp: Sparkonto" +
                 $"\nRäntesats: {kontoräntesats}%";
+        }
+
+        public int IncrementKontonummer(Customer customer)
+        {
+            int[] customerAccounts = new int[customer.Accounts.Count];
+            int index = 0;
+            foreach (SavingsAccount account in customer.Accounts)
+            {
+                customerAccounts[index] = account._Kontonummer;
+            }
+            int maxNummer = customerAccounts.Max();
+            return maxNummer + 1;
         }
 
         
