@@ -85,10 +85,10 @@ namespace Grupp_3_BankApp
             {
                 Console.WriteLine("Write a number");
             }
-            
 
-            
-            
+
+
+
         }
         private void AccountMenu(Customer customer)
         {
@@ -103,31 +103,32 @@ namespace Grupp_3_BankApp
             try
             {
                 int choice = Convert.ToInt32(Console.ReadLine());
-                switch (choice)
-                {
-                    case 1:
-                        int nyttKonto = customer.AddSavingsAccount(customer);
-                        Console.WriteLine($"A new account with the account number {nyttKonto} has been created");
-                        break;
-                    case 2:
-                        //GetCustomer();
-                        foreach(SavingsAccount account in customer.Accounts)
-                        {
-                            account.PrintAccountInfo();
-                            Console.WriteLine("-------------------------------------------");
-                        }
-                        break;
-                    case 3:
-                        //Insättning
-                        break;
-                    case 4:
-                        //Uttag
-                        break;
-                    case 5:
-                        //CloseAccount
-                        break;
-                    case 6:
-                        return;
+            switch (choice)
+            {
+                case 1:
+                    int nyttKonto = customer.AddSavingsAccount(customer);
+                    Console.WriteLine($"A new account with the account number {nyttKonto} has been created");
+                    break;
+                case 2:
+                    //GetCustomer();
+                    foreach (SavingsAccount account in customer.Accounts)
+                    {
+                        account.PrintAccountInfo();
+                        Console.WriteLine("-------------------------------------------");
+                    }
+                    break;
+                case 3:
+                    //Insättning
+                    break;
+                case 4:
+                    //Uttag
+                    break;
+                case 5:
+                    //CloseAccount
+                    customer.RemoveAccount(customer);
+                    break;
+                case 6:
+                    return;
 
                     default:
                         Console.WriteLine("Unknown command");

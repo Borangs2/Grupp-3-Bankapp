@@ -67,7 +67,15 @@ class SavingsAccount
             {
                 customerAccounts[index] = account._Kontonummer;
             }
-            int maxNummer = customerAccounts.Max();
+            int maxNummer;
+            try
+            {
+                maxNummer = customerAccounts.Max();
+            }
+            catch
+            {
+                maxNummer = 0;
+            }
             return maxNummer + 1;
         }
 

@@ -30,7 +30,7 @@ namespace Grupp_3_BankApp
             //Endast för testning
         }
 
-
+        //-
         public void AdminMenu()
         {
             Console.WriteLine(
@@ -98,7 +98,7 @@ namespace Grupp_3_BankApp
         //- = färdigt och testat
 
 
-        //*
+        //-
         //Fetches all customers name and PrsnNumber
         //Returns a List<string> with all customers name and prsnNumber
         //File format: "Name - PernNumber"
@@ -107,7 +107,7 @@ namespace Grupp_3_BankApp
             return GlobalCustomerList;
         }
 
-        //*
+        //-
         //Fetches a customer from the the global customer list
         //Returns the customer of type Customer
         public Customer GetCustomer(string prsnNumber)
@@ -124,8 +124,6 @@ namespace Grupp_3_BankApp
             }
             return null;
         }
-
-        //TODO: När customer klassen är klar lägg till detta
 
         //*
         //Adds a new customer without any accounts to both files and object
@@ -215,6 +213,37 @@ namespace Grupp_3_BankApp
             return false;
         }
 
+        public bool RemoveAccountFromFile(Customer customer, int accountNmr)
+        {
+            try
+            {
+                List<string> tempList = new List<string>(File.ReadAllLines(filePath));
+                //Get customer index
+                int index = GlobalCustomerList.IndexOf(customer);
+
+                //Ersätt filen med den nya listan utan kontot
+                string newLine = $"{customer.Name} - {customer.PrsnNumber} ; ";
+                List<string> newAccounts = new List<string>();
+                foreach (SavingsAccount account in customer.Accounts)
+                {
+                    if (account.Kontonummer != accountNmr)
+                    {
+                        newAccounts.Add($"{account.Kontonummer} , {account.Saldo}");
+                    }
+                }
+                newLine += string.Join(" : ", newAccounts);
+                tempList[index] = newLine;
+
+                Console.WriteLine(newLine);
+                File.WriteAllLines(filePath, tempList);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }  
+        }
+
         //*
         //Creates a new savingsaccount in files
         //Returns the new account number
@@ -236,12 +265,12 @@ namespace Grupp_3_BankApp
             string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
 
             customerList[index] = newLine;
-            //File.WriteAllLines(filePath, customerList);
+            File.WriteAllLines(filePath, customerList);
 
             int maxNummer = customerAccounts.Count + 1;
-            customer.AddAccount(new SavingsAccount(customer, maxNummer + 1));
+            customer.AddAccount(new SavingsAccount(customer, maxNummer));
 
-            return maxNummer + 1;
+            return maxNummer;
         }
 
         //*
@@ -322,7 +351,7 @@ namespace Grupp_3_BankApp
         private List<Customer> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
-
+            GlobalCustomerList.Clear();
             //Endast för testning
             //CustomerFile.Add("Andreas Boräng - 123456781234 ; 1 , 64362 : 2 , 52");
 
