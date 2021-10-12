@@ -9,6 +9,8 @@ namespace Grupp_3_BankApp
         public string Name { get; set; } //Ex. John Doe
         public string PrsnNumber { get; } //Ex. 202012121234
 
+        private protected string adminlösen = "1111";
+
         public List<SavingsAccount> Accounts { get; } = new List<SavingsAccount>();
 
 
@@ -28,7 +30,6 @@ namespace Grupp_3_BankApp
         public void AddAccount(SavingsAccount savingsAccount)
         {
             Accounts.Add(savingsAccount);
-
         }
 
         public void RemoveAccount(SavingsAccount savingsAccount)
@@ -36,23 +37,29 @@ namespace Grupp_3_BankApp
             Accounts.Remove(savingsAccount);
         }
 
-        public void AddNewAccount()
+        //Oanvänd pga att den nollställer GlobalCustomerList av någon anledning
+        public void AddNewAccount(Customer customer)
         {
-            Console.WriteLine("Type your Social Security Number (YYYYMMDDXXXX)");
-            try
-            {
-                string prsnNumber = Console.ReadLine();
-                var myAccount = new SavingsAccount();
-                Accounts.Add(myAccount);
-                AddSavingsAccount(prsnNumber);
-            }
-            catch
-            {
-                Console.WriteLine("Write a number");
-            }
+            //Console.WriteLine("Type your Social Security Number (YYYYMMDDXXXX)");
+            //try
+            //{
+            int accNum = AddSavingsAccount(customer);
+            //    if (accNum < 0)
+            //    {
+            //        Console.WriteLine("Invalid Social security number");
+            //        return;
+            //    }
+
+            //    var myAccount = new SavingsAccount(customer);
+            //    Accounts.Add(myAccount);
 
 
-
+            //    Console.WriteLine("An account has been created with the number: " + accNum);
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("Write a number");
+            //}
         }
 
         public void ChangeName()
@@ -74,70 +81,43 @@ namespace Grupp_3_BankApp
 
         }
 
-        public string FetchInfo()
+        public string FetchInfo(Customer customer)
         {
-            var sb = new StringBuilder("Customer Name:" + Name);
-            sb.Append("\nCustomer Id:" + PrsnNumber);
+            string printLine = $"Name: {customer.Name}\n" +
+                $"ID: {customer.PrsnNumber}\n";
+
+            foreach(SavingsAccount accounts in customer.Accounts)
+            {
+                printLine += $"\n" +
+                    $"Account ID: {accounts.Kontonummer}\n" +
+                    $"Saldo: {accounts.Saldo}\n";
+            }
+
+            /*
+            var sb = new StringBuilder($"Name: {Name} \n");
+            sb.Append($"Id: {PrsnNumber}\n");
 
             foreach (var account in Accounts)
             {
-                sb.Append("\nAccount:" + account);
+                sb.Append($"\nAccount: {account} \n");
             }
-
-            return sb.ToString();
+            */
+            return printLine;
         }
 
-        //public bool Deposit()
-        // {
-        //    Console.WriteLine("Type the Social Security Number (YYYYMMDDXXXX) to deposit money");
-        //    try
-        //     {
-        //        string prsnNumber = Console.ReadLine();
-        //        Console.WriteLine("Which account would you like to deposit to?");
-        //        //Accounts = Console.ReadLine();
-        //
-        //        
-        //     }
-        //    catch
-        //    {
-        //        Console.WriteLine("Error");
-        //         return false;
 
-        //
-        //
-        //     return true;
-        //  }
-
+        //Returns a List<string> with all accounts in file formating:
+        //Kontonamn , saldo : kontonamn , saldo : etc
         public List<string> GetAccountsToString(Customer customer)
         {
             List<string> accounts = new List<string>();
             foreach (SavingsAccount account in customer.Accounts)
             {
-                accounts.Add($"{account.kontonummer} , {account.Saldo}");
+                accounts.Add($"{account.Kontonummer} , {account.Saldo}");
             }
             return accounts;
         }
 
-        public void Menu()
-        {
-            Console.WriteLine("Enter 1 to add new account, 2 to change name, 3 to check info about your account, 4 to deposit");
-            string StringMenu = Console.ReadLine();
-            int NextChoice = Convert.ToInt32(StringMenu);
-            switch (NextChoice)
-            {
-                case 1:
-                    AddNewAccount();
-                    break;
-                case 2:
-                    //Deposit();
-                    break;
-                case 3:
-                    //GetCustomer();
-                    break;
-                case 4:
-                   // insättning();
-                    break;
-            }
-        }
+        
     }
 }

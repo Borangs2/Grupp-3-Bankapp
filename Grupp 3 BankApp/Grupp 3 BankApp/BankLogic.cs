@@ -2,13 +2,28 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace Grupp_3_BankApp
 {
     class BankLogic
     {
+        private static List<Customer> GlobalCustomerList { get; set; }
+        private void CreateGlobalCustomerList()
+        {
+            if (!GlobalCustomerListCheck)
+            {
+                GlobalCustomerList = new List<Customer>();
+                return;
+            }
+            GlobalCustomerListCheck = true;
+        }
+
+        private bool GlobalCustomerListCheck;
+
+
+
         //Lista med alla customers för användning i denna klass
-        private List<Customer> GlobalCustomerList = new List<Customer>();
         private string filePath = "Customers.txt";
         public BankLogic()
         {
@@ -16,24 +31,86 @@ namespace Grupp_3_BankApp
         }
 
 
+        public void AdminMenu()
+        {
+            Console.WriteLine(
+                $"1. Add a customer\n" +
+                $"2. View All Customers\n" +
+                $"3. Go to the main menu\n" +
+                $"4. Close the application");
+            string AdminMenu = Console.ReadLine();
+            int AdminChoice = Convert.ToInt32(AdminMenu);
+            switch (AdminChoice)
+            {
+                case 1:
+                    Console.Write("Add new customer name:");
+                    string name = Console.ReadLine();
+                    Console.WriteLine("Add new customer Social Security Number");
+                    try
+                    {
+                        double prsnNumber = Convert.ToDouble(Console.ReadLine());
+                        if(AddCustomer(name, Convert.ToString(prsnNumber)))
+                        {
+                            Console.WriteLine("Customer added Succesfully");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Error in adding customer");
+                        }
+
+                    }
+                    catch
+                    {
+                        Console.WriteLine("SSN must be a number");
+                    }
+                    break;
+                case 2:
+                    List<Customer> allCustomers = GetAllCustomers();
+                    foreach(Customer Customer in allCustomers)
+                    {
+                        Console.WriteLine(
+                            $"Name: {Customer.Name}\n" +
+                            $"ID: {Customer.PrsnNumber}\n" +
+                            $"Accounts:");
+                        foreach(SavingsAccount account in Customer.Accounts)
+                        {
+                            Console.WriteLine(
+                                $"Account{account.Kontonummer} - Saldo: {account.Saldo}");
+                        }
+                        Console.WriteLine("------------------------------------");
+                    }
+                    break;
+                case 3:
+                    return;
+                case 4:
+                    Console.WriteLine("Thank you for using KYH bank. We hope to se you later");
+                    Environment.Exit(0);
+                    break;
+
+                default:
+                    Console.WriteLine("Unknown command");
+                    break;
+            }
+        }
+
+
         //* = färdigt men otestat
         //- = färdigt och testat
 
-        //*
-        private List<string> GetAllCustomers(List<Customer> GlobalCustomerList)
-        {
-            List<string> CustomerList = new List<string>();
 
-            foreach (Customer customer in GlobalCustomerList)
-            {
-                string[] customerValues = new string[2] { customer.Name, customer.PrsnNumber };
-                string.Join(" : ", customerValues);
-            }
-            return CustomerList;
+        //*
+        //Fetches all customers name and PrsnNumber
+        //Returns a List<string> with all customers name and prsnNumber
+        //File format: "Name - PernNumber"
+        private List<Customer> GetAllCustomers()
+        {
+            return GlobalCustomerList;
         }
 
         //*
-        private Customer GetCustomer(string prsnNumber)
+        //Fetches a customer from the the global customer list
+        //Returns the customer of type Customer
+        public Customer GetCustomer(string prsnNumber)
         {
             Customer thisCustomer;
 
@@ -55,6 +132,8 @@ namespace Grupp_3_BankApp
         //TODO: När customer klassen är klar lägg till detta
 
         //*
+        //Adds a new customer without any accounts to both files and object
+        //Returns true if it succeded and false otherwise
         private bool AddCustomer(string name, string prsnNumber)
         {
             bool unique = true;
@@ -67,7 +146,9 @@ namespace Grupp_3_BankApp
             }
             if (unique)
             {
-                File.AppendText($"{name} - {prsnNumber} ; ");
+                List<string> newFile = ReadCustomerFile();
+                newFile.Add($"{name} - {prsnNumber} ; ");
+                File.WriteAllLines(filePath, newFile);
                 new Customer(name, prsnNumber);
                 return true;
             }
@@ -77,6 +158,8 @@ namespace Grupp_3_BankApp
         }
 
         //*
+        //Changes a customers name in files and object
+        //Returns true if it succeded and false otherwise
         public bool ChangeCustomerName(string newName, string prsnNumber) 
         {
             
@@ -106,6 +189,8 @@ namespace Grupp_3_BankApp
         }
 
         //*
+        //Removes a customer from all files
+        //Returns true if it succeded and flase otherwise
         public bool RemoveCustomer(string prsnNumber)
         {
             
@@ -135,92 +220,155 @@ namespace Grupp_3_BankApp
             }
             return false;
         }
-        
+
         //*
-        public int AddSavingsAccount(string prsnNumber)
+        //Creates a new savingsaccount in files
+        //Returns the new account numbers
+        public int AddSavingsAccount(Customer customer)
         {
-            string[] newAccountNr = new string[2];
+            int index = GlobalCustomerList.IndexOf(customer);
+
+            List<string> customerAccounts = new List<string>();
+            foreach(SavingsAccount account in customer.Accounts)
+            {
+                customerAccounts.Add($"{account.Kontonummer} , {account.Saldo}");
+            }
+
+            //Get all data
+            List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+            //Get all accounts in a single string
+            string joined = string.Join(" : ", customerAccounts);
+
+            string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+
+            customerList[index] = newLine;
+            //File.WriteAllLines(filePath, customerList);
+
+            int maxNummer = customerAccounts.Count + 1;
+            customer.AddAccount(new SavingsAccount(customer, maxNummer + 1));
+
+            return maxNummer + 1;
+        }
+
+        //*
+        //Adds money to a customers account
+        //Return true if it succeded otherwise false
+        public bool Insättning(string prsnNumber, int kontoNummer, double kronor)
+        {
             foreach (Customer customer in GlobalCustomerList)
             {
                 if (customer.PrsnNumber == prsnNumber)
                 {
-                    customer.AddAccount(new SavingsAccount());
-                    int index = GlobalCustomerList.IndexOf(customer);
-
-                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
-
-                    List<string> accounts = customer.GetAccountsToString(customer);
-                    string joined = string.Join(" : ", accounts);
-
-                    string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
-
-                    customerList[index] = newLine;
-                    File.WriteAllLines(filePath, customerList);
-
-                    newAccountNr = accounts[accounts.Count - 1].Split(" , ");
-
+                    foreach (SavingsAccount account in customer.Accounts)
+                    {
+                        try
+                        {
+                            account.Saldo += kronor;
+                            return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                    break;
                 }
-            }
-            return Convert.ToInt32(newAccountNr[0]);
-        }
-
-
-        public bool Startup()
-        {
-            try
-            {
-                InterpretFile(ReadCustomerFile());
-                return true;
-            }
-            catch
-            {
-                Console.WriteLine("File reading Error");
             }
             return false;
         }
 
-        //TODO: När customer klassen är klar lägg till detta
+        //*
+        //Withdraws money from a customers account
+        //returns true if it succeded otherwise false
+        public bool Uttag(string prsnNumber, int kontoNummer, double kronor)
+        {
+            foreach(Customer customer in GlobalCustomerList)
+            {
+                if(customer.PrsnNumber == prsnNumber)
+                {
+                   foreach(SavingsAccount account in customer.Accounts)
+                    {
+                        try
+                        {
+                            account.Saldo -= kronor;
+                            return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    }
+                    break;
+                }
+            }
+            return false;
+        }
+
+        //*
+        //Call on startup to fetch and create files and the global customer list
+        public bool Startup()
+        {
+            try
+            {
+                CreateGlobalCustomerList();
+
+                InterpretFile(ReadCustomerFile());
+                GlobalCustomerListCheck = true;
+                return true;
+            }
+            catch
+            {
+                throw new FileErrorException();
+            }
+        }
+
+        //Interprets the files read by the ReadCustomerFiles method
+        //Returns a List<Customer> with every customer including accounts if any
+        //Also this method sucks to work in and every problem i'm having leads back to it
         private List<Customer> InterpretFile(List<string> CustomerFile)
         {
             Console.WriteLine("Interpreting...");
 
-            CustomerFile.Add("Andreas Boräng - 123456781234 ; 1 , 64362 : 2 , 52");
+            //Endast för testning
+            //CustomerFile.Add("Andreas Boräng - 123456781234 ; 1 , 64362 : 2 , 52");
 
             List<Customer> CustomerList = new List<Customer>();
             string[] getName = new string[2];
             string[] getPrsnNumber = new string[2];
             List<SavingsAccount> getAccounts = new List<SavingsAccount>();
-
+            
             for(int i = 0; i < CustomerFile.Count; i++)
             {
-                getName = CustomerFile[i].Split(" - ");
+                string thisCustomer = CustomerFile[i];
+                getName = thisCustomer.Split(" - ");
                 getPrsnNumber = getName[1].Split(" ; ");
                 string[] tempAccount = getPrsnNumber[1].Split(" : ");
-
+                getAccounts.Clear();
                 foreach (string account in tempAccount)
                 {
-                    int accountNumber = account[0];
-                    int saldo = account[1];
+                    string[] thisAccount = account.Split(" , ");
+                    int accountNumber = Convert.ToInt32(thisAccount[0]);
+                    int saldo = Convert.ToInt32(thisAccount[1]);
                     getAccounts.Add(new SavingsAccount(accountNumber, saldo));
                 }
-            }
-
-            foreach (string customer in CustomerFile)
-            {
-                //This causes an infinite loop and i dont know why
                 CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
 
-                GlobalCustomerList.Add(CustomerList[CustomerList.Count - 1]);
             }
+
+            foreach (Customer customer in CustomerList)
+            {
+
+                GlobalCustomerList.Add(customer);
+            }
+
             return CustomerList;
         }
+        
+        //Reads the textfile and outputs it in raw data
+        //Returns a List<string> with raw data to be interpreted
+        //File foramat: "Namn - ååååmmddxxxx ; konto , saldo : konto2 , saldo"
         private List<string> ReadCustomerFile()
         {
-            /*
-             * File formating:
-             * Namn - ååååmmddxxxx ; konto , saldo : konto2 , saldo
-            */
-
             Console.WriteLine("Reading...");
 
             List<string> CustomerList;
@@ -232,6 +380,14 @@ namespace Grupp_3_BankApp
             }
             CustomerList = new List<string>(File.ReadAllLines(filePath));
             return CustomerList;
+        }
+    }
+    
+    class FileErrorException : Exception
+    {
+        public FileErrorException() : base()
+        {
+            Console.WriteLine("File reading Error");
         }
     }
 }
