@@ -6,12 +6,10 @@ namespace Grupp_3_BankApp
     {
         static void Main(string[] args)
         {
-            BankLogic test = new BankLogic();
-            test.Startup();
+            BankLogic bank = new BankLogic();
+            bank.Startup();
             Program program = new Program();
-            program.Menu(test);
-            //new Customer("andreas", "123456781234");
-            
+            program.Menu(bank);
         }
         public void Menu(BankLogic bank)
         {
