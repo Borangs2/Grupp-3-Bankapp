@@ -90,16 +90,6 @@ namespace Grupp_3_BankApp
                     $"Account ID: {accounts.Kontonummer}\n" +
                     $"Saldo: {accounts.Saldo}\n";
             }
-
-            /*
-            var sb = new StringBuilder($"Name: {Name} \n");
-            sb.Append($"Id: {PrsnNumber}\n");
-
-            foreach (var account in Accounts)
-            {
-                sb.Append($"\nAccount: {account} \n");
-            }
-            */
             return printLine;
         }
 

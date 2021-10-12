@@ -6,22 +6,19 @@ namespace Grupp_3_BankApp
     {
         static void Main(string[] args)
         {
-            BankLogic test = new BankLogic();
-            test.Startup();
+            BankLogic bank = new BankLogic();
+            bank.Startup();
             Program program = new Program();
-            program.Menu(test);
-            //new Customer("andreas", "123456781234");
-            
+            program.Menu(bank);
         }
         public void Menu(BankLogic bank)
         {
             
             Console.WriteLine("Welcome to KYH BANK, please enter your Social Security number... (YYYYMMDDXXXX)");
-            string prsnnmr = Console.ReadLine();
+            string prsnNmr = Console.ReadLine();
             try
             {
-                int PrsnNumber = (int)Convert.ToInt64(prsnnmr);
-                Customer currentCustomer = bank.GetCustomer(prsnnmr);
+                Customer currentCustomer = bank.GetCustomer(prsnNmr);
 
                 if (currentCustomer != null)
                 {
@@ -42,7 +39,7 @@ namespace Grupp_3_BankApp
                                     AccountMenu(currentCustomer);
                                     break;
                                 case 2:
-                                    ChangeAccountMenu();
+                                    ChangeAccountMenu(currentCustomer);
                                     break;
                                 case 3:
                                     //Get customer info
@@ -113,6 +110,11 @@ namespace Grupp_3_BankApp
                         break;
                     case 2:
                         //GetCustomer();
+                        foreach(SavingsAccount account in customer.Accounts)
+                        {
+                            account.PrintAccountInfo();
+                            Console.WriteLine("-------------------------------------------");
+                        }
                         break;
                     case 3:
                         //Insättning
@@ -136,7 +138,7 @@ namespace Grupp_3_BankApp
                 Console.WriteLine("Please write one of the numbers listed above");
             }
         }
-        private void ChangeAccountMenu()
+        private void ChangeAccountMenu(Customer customer)
         {
             Console.WriteLine(
                 "1. Change your name\n" +
@@ -150,9 +152,12 @@ namespace Grupp_3_BankApp
                 {
                     case 1:
                         //ChangeName();
+                        string newName = Console.ReadLine();
+                        customer.ChangeCustomerName(newName, customer.PrsnNumber);
                         break;
                     case 2:
                         //RemoveCustomer();
+                        customer.RemoveCustomer(customer.PrsnNumber);
                         break;
                     case 3:
                         return;

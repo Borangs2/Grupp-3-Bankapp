@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Grupp 3 BankApp",
+    "\\Grupp 3 BankApp\\Grupp 3 BankApp"
   ],
-  "SelectedNode": "\\Grupp 3 BankApp.sln",
+  "SelectedNode": "\\Grupp 3 BankApp\\Grupp 3 BankApp\\BankLogic.cs",
   "PreviewInSolutionExplorer": false
 }
