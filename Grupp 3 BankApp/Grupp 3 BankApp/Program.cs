@@ -51,8 +51,7 @@ namespace Grupp_3_BankApp
                                     Environment.Exit(0);
                                     break;
                                 case 6:
-                                    AdminMenu(bank);
-                                    //Admin meny                               
+                                    AdminMenu(bank);                               
                                     break;
                                 case 9:
                                     //ChangeLang();
