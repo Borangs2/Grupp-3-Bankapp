@@ -51,12 +51,12 @@ class SavingsAccount
 
         public string kontotyp = "sparkonto";
 
-        public string PrintAccountInfo()
+        public void PrintAccountInfo()
         {
-            return $"kontonummer: {_Kontonummer} \n" +
-                $"saldo: {kontosaldo} \n" +
-                $"kontotyp: Sparkonto" +
-                $"\nRäntesats: {kontoräntesats}%";
+            Console.WriteLine($"Kontonummer: {_Kontonummer} \n" +
+                $"Saldo: {kontosaldo} \n" +
+                $"Kontotyp: Sparkonto \n" +
+                $"Räntesats: {kontoräntesats}%");
         }
 
         public int IncrementKontonummer(Customer customer)

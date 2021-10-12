@@ -15,11 +15,10 @@ namespace Grupp_3_BankApp
         {
             
             Console.WriteLine("Welcome to KYH BANK, please enter your Social Security number... (YYYYMMDDXXXX)");
-            string prsnnmr = Console.ReadLine();
+            string prsnNmr = Console.ReadLine();
             try
             {
-                int PrsnNumber = (int)Convert.ToInt64(prsnnmr);
-                Customer currentCustomer = bank.GetCustomer(prsnnmr);
+                Customer currentCustomer = bank.GetCustomer(prsnNmr);
 
                 if (currentCustomer != null)
                 {
@@ -112,6 +111,11 @@ namespace Grupp_3_BankApp
                         break;
                     case 2:
                         //GetCustomer();
+                        foreach(SavingsAccount account in customer.Accounts)
+                        {
+                            account.PrintAccountInfo();
+                            Console.WriteLine("-------------------------------------------");
+                        }
                         break;
                     case 3:
                         //Insättning

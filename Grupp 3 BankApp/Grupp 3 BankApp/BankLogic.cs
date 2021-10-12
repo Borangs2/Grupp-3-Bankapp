@@ -115,18 +115,14 @@ namespace Grupp_3_BankApp
             Customer thisCustomer;
 
             foreach(Customer customer in GlobalCustomerList)
-            {
-                
+            {               
                 if(customer.PrsnNumber == prsnNumber)
                 {
                     thisCustomer = customer;
                     return thisCustomer;
-                }
-                
+                }               
             }
             return null;
-
-
         }
 
         //TODO: När customer klassen är klar lägg till detta
@@ -333,18 +329,19 @@ namespace Grupp_3_BankApp
             List<Customer> CustomerList = new List<Customer>();
             string[] getName = new string[2];
             string[] getPrsnNumber = new string[2];
-            List<SavingsAccount> getAccounts = new List<SavingsAccount>();
-            
-            for(int i = 0; i < CustomerFile.Count; i++)
+
+            for (int i = 0; i < CustomerFile.Count; i++)
             {
                 string thisCustomer = CustomerFile[i];
                 getName = thisCustomer.Split(" - ");
                 getPrsnNumber = getName[1].Split(" ; ");
                 string[] tempAccount = getPrsnNumber[1].Split(" : ");
-                getAccounts.Clear();
+
+                List<SavingsAccount> getAccounts = new List<SavingsAccount>();
 
                 if (!string.IsNullOrEmpty(tempAccount[0]))
                 {
+                    getAccounts.Clear();
                     foreach (string account in tempAccount)
                     {
                         string[] thisAccount = account.Split(" , ");
@@ -352,13 +349,10 @@ namespace Grupp_3_BankApp
                         int saldo = Convert.ToInt32(thisAccount[1]);
                         getAccounts.Add(new SavingsAccount(accountNumber, saldo));
                     }
-                }                
+                }
+                Customer newCustomer = new Customer(getName[0], getPrsnNumber[0], getAccounts);
                 CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
-            }
-
-            foreach (Customer customer in CustomerList)
-            {
-                GlobalCustomerList.Add(customer);
+                GlobalCustomerList.Add(newCustomer);
             }
             return CustomerList;
         }
