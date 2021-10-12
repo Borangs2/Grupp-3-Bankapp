@@ -9,8 +9,6 @@ namespace Grupp_3_BankApp
         public string Name { get; set; } //Ex. John Doe
         public string PrsnNumber { get; } //Ex. 202012121234
 
-        private protected string adminlösen = "1111";
-
         public List<SavingsAccount> Accounts { get; } = new List<SavingsAccount>();
 
 

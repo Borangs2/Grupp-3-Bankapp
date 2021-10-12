@@ -32,64 +32,74 @@ namespace Grupp_3_BankApp
 
         //-
         public void AdminMenu()
-        {
-            Console.WriteLine(
-                $"1. Add a customer\n" +
-                $"2. View All Customers\n" +
-                $"3. Go to the main menu\n" +
-                $"4. Close the application");
-            string AdminMenu = Console.ReadLine();
-            int AdminChoice = Convert.ToInt32(AdminMenu);
-            switch (AdminChoice)
+        {   //om adminpass som är input = 1111 då körs admin menu.
+            Console.WriteLine("Ange lösenord");
+            string Adminpass = Console.ReadLine();
+            if (Adminpass == "1111")
             {
-                case 1:
-                    Console.Write("Add new customer name:");
-                    string name = Console.ReadLine();
-                    Console.WriteLine("Add new customer Social Security Number");
-                    try
-                    {
-                        double prsnNumber = Convert.ToDouble(Console.ReadLine());
-                        if(AddCustomer(name, Convert.ToString(prsnNumber)))
-                        {
-                            Console.WriteLine("Customer added Succesfully");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Error in adding customer");
-                        }
 
-                    }
-                    catch
-                    {
-                        Console.WriteLine("SSN must be a number");
-                    }
-                    break;
-                case 2:
-                    List<Customer> allCustomers = GetAllCustomers();
-                    foreach(Customer Customer in allCustomers)
-                    {
-                        Console.WriteLine(
-                            $"Name: {Customer.Name}\n" +
-                            $"ID: {Customer.PrsnNumber}\n" +
-                            $"Accounts:");
-                        foreach(SavingsAccount account in Customer.Accounts)
+                Console.WriteLine(
+                    $"1. Add a customer\n" +
+                    $"2. View All Customers\n" +
+                    $"3. Go to the main menu\n" +
+                    $"4. Close the application");
+                string AdminMenu = Console.ReadLine();
+                int AdminChoice = Convert.ToInt32(AdminMenu);
+                switch (AdminChoice)
+                {
+                    case 1:
+                        Console.Write("Add new customer name:");
+                        string name = Console.ReadLine();
+                        Console.WriteLine("Add new customer Social Security Number");
+                        try
+                        {
+                            double prsnNumber = Convert.ToDouble(Console.ReadLine());
+                            if (AddCustomer(name, Convert.ToString(prsnNumber)))
+                            {
+                                Console.WriteLine("Customer added Succesfully");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Error in adding customer");
+                            }
+
+                        }
+                        catch
+                        {
+                            Console.WriteLine("SSN must be a number");
+                        }
+                        break;
+                    case 2:
+                        List<Customer> allCustomers = GetAllCustomers();
+                        foreach (Customer Customer in allCustomers)
                         {
                             Console.WriteLine(
-                                $"Account{account.Kontonummer} - Saldo: {account.Saldo}");
+                                $"Name: {Customer.Name}\n" +
+                                $"ID: {Customer.PrsnNumber}\n" +
+                                $"Accounts:");
+                            foreach (SavingsAccount account in Customer.Accounts)
+                            {
+                                Console.WriteLine(
+                                    $"Account{account.Kontonummer} - Saldo: {account.Saldo}");
+                            }
+                            Console.WriteLine("------------------------------------");
                         }
-                        Console.WriteLine("------------------------------------");
-                    }
-                    break;
-                case 3:
-                    return;
-                case 4:
-                    Console.WriteLine("Thank you for using KYH bank. We hope to se you later");
-                    Environment.Exit(0);
-                    break;
+                        break;
+                    case 3:
+                        return;
+                    case 4:
+                        Console.WriteLine("Thank you for using KYH bank. We hope to se you later");
+                        Environment.Exit(0);
+                        break;
 
-                default:
-                    Console.WriteLine("Unknown command");
-                    break;
+                    default:
+                        Console.WriteLine("Unknown command");
+                        break;
+                }
+            }
+            else
+            {
+                Console.WriteLine("Wrong password, try again");
             }
         }
 

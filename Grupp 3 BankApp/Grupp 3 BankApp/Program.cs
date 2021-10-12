@@ -30,7 +30,6 @@ namespace Grupp_3_BankApp
                         "3. View account\n" +
                         "4. Exit and Log out\n");
 
-                        //Console.WriteLine("(for swedish please press 9)");
                         try
                         {
                             int stringMenu1 = Convert.ToInt32(Console.ReadLine());
@@ -48,7 +47,7 @@ namespace Grupp_3_BankApp
                                     break;
                                 case 4:
                                     //Exit application
-                                    Console.WriteLine("Thank you for using KYH bank. We hope to se you later");
+                                    Console.WriteLine("Thank you for using KYH bank. We hope to see you later");
                                     Environment.Exit(0);
                                     break;
                                 case 6:
@@ -67,7 +66,7 @@ namespace Grupp_3_BankApp
                         }
                         catch
                         {
-                            Console.WriteLine("Please write a number listed above");
+                            Console.WriteLine("Please write one of the numbers listed above");
                         }
 
 
@@ -129,6 +128,43 @@ namespace Grupp_3_BankApp
                     break;
                 case 6:
                     return;
+                switch (choice)
+                {
+                    case 1:
+                        int nyttKonto = customer.AddSavingsAccount(customer);
+                        Console.WriteLine($"A new account with the account number {nyttKonto} has been created");
+                        break;
+                    case 2:
+                        //GetCustomer();
+                        foreach(SavingsAccount account in customer.Accounts)
+                        {
+                            account.PrintAccountInfo();
+                            Console.WriteLine("-------------------------------------------");
+                        }
+                        break;
+                    case 3:
+                        //Insättning
+
+                        Console.WriteLine("write the account number to deposit: ");
+                        int kontoNummer = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("How much money: ");
+                        double kronor = Convert.ToDouble(Console.ReadLine());
+                        customer.Insättning(customer.PrsnNumber, kontoNummer, kronor);
+                        
+                        break;
+                    case 4:
+                        //Uttag
+                        Console.WriteLine("write the account number to withdrawal: ");
+                        kontoNummer = Convert.ToInt32(Console.ReadLine());
+                        Console.WriteLine("How much money: ");
+                        kronor = Convert.ToDouble(Console.ReadLine());
+                        customer.Uttag(customer.PrsnNumber, kontoNummer, kronor);
+                        break;
+                    case 5:
+                        //CloseAccount
+                        break;
+                    case 6:
+                        return;
 
                     default:
                         Console.WriteLine("Unknown command");
@@ -137,7 +173,7 @@ namespace Grupp_3_BankApp
             }
             catch
             {
-                Console.WriteLine("Please write a number listed above");
+                Console.WriteLine("Please write one of the numbers listed above");
             }
         }
         private void ChangeAccountMenu(Customer customer)
@@ -170,7 +206,7 @@ namespace Grupp_3_BankApp
             }
             catch
             {
-                Console.WriteLine("Please write a number listed above");
+                Console.WriteLine("Please write one of the numbers listed above");
             }
             
         }
