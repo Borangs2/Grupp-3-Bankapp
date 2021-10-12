@@ -26,3 +26,17 @@ C:\Users\New PC\Source\Repos\Grupp-3-Bankapp\Grupp 3 BankApp\Grupp 3 BankApp\obj
 C:\Users\New PC\Source\Repos\Grupp-3-Bankapp\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.dll
 C:\Users\New PC\Source\Repos\Grupp-3-Bankapp\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.pdb
 C:\Users\New PC\Source\Repos\Grupp-3-Bankapp\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.genruntimeconfig.cache
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\bin\Debug\netcoreapp3.1\Grupp 3 BankApp.exe
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\bin\Debug\netcoreapp3.1\Grupp 3 BankApp.deps.json
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\bin\Debug\netcoreapp3.1\Grupp 3 BankApp.runtimeconfig.json
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\bin\Debug\netcoreapp3.1\Grupp 3 BankApp.runtimeconfig.dev.json
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\bin\Debug\netcoreapp3.1\Grupp 3 BankApp.dll
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\bin\Debug\netcoreapp3.1\Grupp 3 BankApp.pdb
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.csproj.AssemblyReference.cache
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.AssemblyInfoInputs.cache
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.AssemblyInfo.cs
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.csproj.CoreCompileInputs.cache
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.dll
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.pdb
+C:\Users\andbo\Source\Repos\Git\Grupp 3 BankApp\Grupp 3 BankApp\obj\Debug\netcoreapp3.1\Grupp 3 BankApp.genruntimeconfig.cache

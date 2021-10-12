@@ -152,9 +152,7 @@ namespace Grupp_3_BankApp
                 new Customer(name, prsnNumber);
                 return true;
             }
-
             return false;
-
         }
 
         //*
@@ -308,18 +306,18 @@ namespace Grupp_3_BankApp
         //Call on startup to fetch and create files and the global customer list
         public bool Startup()
         {
-            try
-            {
-                CreateGlobalCustomerList();
+            //try
+            //{
+            CreateGlobalCustomerList();
 
-                InterpretFile(ReadCustomerFile());
-                GlobalCustomerListCheck = true;
-                return true;
-            }
-            catch
-            {
-                throw new FileErrorException();
-            }
+            InterpretFile(ReadCustomerFile());
+            GlobalCustomerListCheck = true;
+            return true;
+            //}
+            //catch
+            //{
+            //    throw new FileErrorException();
+            //}
         }
 
         //Interprets the files read by the ReadCustomerFiles method
@@ -344,23 +342,24 @@ namespace Grupp_3_BankApp
                 getPrsnNumber = getName[1].Split(" ; ");
                 string[] tempAccount = getPrsnNumber[1].Split(" : ");
                 getAccounts.Clear();
-                foreach (string account in tempAccount)
-                {
-                    string[] thisAccount = account.Split(" , ");
-                    int accountNumber = Convert.ToInt32(thisAccount[0]);
-                    int saldo = Convert.ToInt32(thisAccount[1]);
-                    getAccounts.Add(new SavingsAccount(accountNumber, saldo));
-                }
-                CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
 
+                if (!string.IsNullOrEmpty(tempAccount[0]))
+                {
+                    foreach (string account in tempAccount)
+                    {
+                        string[] thisAccount = account.Split(" , ");
+                        int accountNumber = Convert.ToInt32(thisAccount[0]);
+                        int saldo = Convert.ToInt32(thisAccount[1]);
+                        getAccounts.Add(new SavingsAccount(accountNumber, saldo));
+                    }
+                }                
+                CustomerList.Add(new Customer(getName[0], getPrsnNumber[0], getAccounts));
             }
 
             foreach (Customer customer in CustomerList)
             {
-
                 GlobalCustomerList.Add(customer);
             }
-
             return CustomerList;
         }
         
