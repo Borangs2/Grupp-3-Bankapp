@@ -40,7 +40,7 @@ namespace Grupp_3_BankApp
                                     AccountMenu(currentCustomer);
                                     break;
                                 case 2:
-                                    ChangeAccountMenu();
+                                    ChangeAccountMenu(currentCustomer);
                                     break;
                                 case 3:
                                     //Get customer info
@@ -139,7 +139,7 @@ namespace Grupp_3_BankApp
                 Console.WriteLine("Please write a number listed above");
             }
         }
-        private void ChangeAccountMenu()
+        private void ChangeAccountMenu(Customer customer)
         {
             Console.WriteLine(
                 "1. Change your name\n" +
@@ -153,9 +153,12 @@ namespace Grupp_3_BankApp
                 {
                     case 1:
                         //ChangeName();
+                        string newName = Console.ReadLine();
+                        customer.ChangeCustomerName(newName, customer.PrsnNumber);
                         break;
                     case 2:
                         //RemoveCustomer();
+                        customer.RemoveCustomer(customer.PrsnNumber);
                         break;
                     case 3:
                         return;
