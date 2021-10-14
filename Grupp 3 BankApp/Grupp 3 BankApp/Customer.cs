@@ -47,7 +47,7 @@ namespace Grupp_3_BankApp
                             Console.WriteLine("Account removed Succesfully");
                             if(thisAccount.Saldo > 0)
                             {
-                                Console.WriteLine($"There was still {thisAccount.Saldo} left on the account so get back {thisAccount.Saldo * (1 + (thisAccount.räntesats/100))}");
+                                Console.WriteLine($"There was still {thisAccount.Saldo} left on the account so get back {thisAccount.Saldo * (1 + (thisAccount.räntesats/100))} ({thisAccount.räntesats}% interest)");
                             }
 
                             customer.Accounts.Remove(thisAccount);

@@ -197,7 +197,7 @@ namespace Grupp_3_BankApp
                 switch (NextChoice1)
                 {
                     case 1:
-                        //ChangeName();
+                        //ChangeCustomerName();
                         Console.Write("Write your new name: ");
                         string newName = Console.ReadLine();
                         if(customer.ChangeCustomerName(newName, customer.PrsnNumber))
