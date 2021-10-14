@@ -245,7 +245,6 @@ namespace Grupp_3_BankApp
                 newLine += string.Join(" : ", newAccounts);
                 tempList[index] = newLine;
 
-                Console.WriteLine(newLine);
                 File.WriteAllLines(filePath, tempList);
                 return true;
             }
