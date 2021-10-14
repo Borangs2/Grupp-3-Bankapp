@@ -309,23 +309,39 @@ namespace Grupp_3_BankApp
         //Return true if it succeded otherwise false
         public bool Insättning(string prsnNumber, int kontoNummer, double kronor)
         {
+            bool succeded = false;
             foreach (Customer customer in GlobalCustomerList)
             {
                 if (customer.PrsnNumber == prsnNumber)
                 {
                     foreach (SavingsAccount account in customer.Accounts)
                     {
-                        try
-                        {
+                        if(account.Kontonummer == kontoNummer)
+                        {                            
                             account.Saldo += kronor;
-                            return true;
-                        }
-                        catch
-                        {
-                            return false;
+                            succeded = true;
+                            break;                      
                         }
                     }
-                    break;
+                    //Update the file
+                    int index = GlobalCustomerList.IndexOf(customer);
+                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+                    List<string> customerAccounts = new List<string>();
+
+                    foreach (SavingsAccount account in customer.Accounts)
+                    {
+                        customerAccounts.Add($"{account.Kontonummer} , {account.Saldo}");
+                    }
+
+                    string joined = string.Join(" : ", customerAccounts);
+                    string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+
+                    customerList[index] = newLine;
+                    File.WriteAllLines(filePath, customerList);
+                    if (succeded)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;
@@ -336,23 +352,46 @@ namespace Grupp_3_BankApp
         //returns true if it succeded otherwise false
         public bool Uttag(string prsnNumber, int kontoNummer, double kronor)
         {
-            foreach(Customer customer in GlobalCustomerList)
+            bool succeded = false;
+            foreach (Customer customer in GlobalCustomerList)
             {
-                if(customer.PrsnNumber == prsnNumber)
+                if (customer.PrsnNumber == prsnNumber)
                 {
-                   foreach(SavingsAccount account in customer.Accounts)
+                    foreach (SavingsAccount account in customer.Accounts)
                     {
-                        try
+                        if (account.Kontonummer == kontoNummer)
                         {
-                            account.Saldo -= kronor;
-                            return true;
-                        }
-                        catch
-                        {
-                            return false;
+                            if (account.Saldo > kronor)
+                            {
+                                account.Saldo -= kronor;
+                                succeded = true;
+                                break;
+                            }
+                            else
+                            {
+                                return false;
+                            }
                         }
                     }
-                    break;
+                    //Update the file
+                    int index = GlobalCustomerList.IndexOf(customer);
+                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+                    List<string> customerAccounts = new List<string>();
+
+                    foreach (SavingsAccount account in customer.Accounts)
+                    {
+                        customerAccounts.Add($"{account.Kontonummer} , {account.Saldo}");
+                    }
+
+                    string joined = string.Join(" : ", customerAccounts);
+                    string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+
+                    customerList[index] = newLine;
+                    File.WriteAllLines(filePath, customerList);
+                    if (succeded)
+                    {
+                        return true;
+                    }
                 }
             }
             return false;

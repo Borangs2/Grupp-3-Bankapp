@@ -125,7 +125,16 @@ namespace Grupp_3_BankApp
                             int kontoNummer = Convert.ToInt32(Console.ReadLine());
                             Console.WriteLine("How much money: ");
                             double kronor = Convert.ToDouble(Console.ReadLine());
-                            customer.Insättning(customer.PrsnNumber, kontoNummer, kronor);
+                            if (customer.Insättning(customer.PrsnNumber, kontoNummer, kronor))
+                            {
+                                Console.WriteLine($"{kronor} has been deposited to your account");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("An error occured while depositing to your account \n " +
+                                    "Are you sure you wrote the correct account number?");
+                            }
                         }
                         catch
                         {
@@ -142,7 +151,18 @@ namespace Grupp_3_BankApp
                             int kontoNummer = Convert.ToInt32(Console.ReadLine());
                             Console.WriteLine("How much money: ");
                             double kronor = Convert.ToDouble(Console.ReadLine());
-                            customer.Uttag(customer.PrsnNumber, kontoNummer, kronor);
+                            bool succeded = customer.Uttag(customer.PrsnNumber, kontoNummer, kronor);
+                            if (succeded)
+                            {
+                                Console.WriteLine($"{kronor} has been withdrawn from your account");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("An error occured while Withdrawing from your account\n" +
+                                    "Are you sure you wrote the correct account number or wrote a number greater then the amount of money you have on your account?");
+                            }
+
                         }
                         catch
                         {
