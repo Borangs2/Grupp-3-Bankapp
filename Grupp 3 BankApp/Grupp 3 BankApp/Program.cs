@@ -200,7 +200,14 @@ namespace Grupp_3_BankApp
                         //ChangeName();
                         Console.Write("Write your new name: ");
                         string newName = Console.ReadLine();
-                        customer.ChangeCustomerName(newName, customer.PrsnNumber);
+                        if(customer.ChangeCustomerName(newName, customer.PrsnNumber))
+                        {
+                            Console.WriteLine("Name changed successfully");
+                        }
+                        else
+                        {
+                            Console.WriteLine("An error occured while changing your name");
+                        }
                         break;
                     case 2:
                         //RemoveCustomer();
