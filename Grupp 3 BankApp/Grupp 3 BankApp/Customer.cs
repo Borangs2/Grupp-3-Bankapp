@@ -67,26 +67,7 @@ namespace Grupp_3_BankApp
         //Oanvänd pga att den nollställer GlobalCustomerList av någon anledning
         public void AddNewAccount(Customer customer)
         {
-            //Console.WriteLine("Type your Social Security Number (YYYYMMDDXXXX)");
-            //try
-            //{
             int accNum = AddSavingsAccount(customer);
-            //    if (accNum < 0)
-            //    {
-            //        Console.WriteLine("Invalid Social security number");
-            //        return;
-            //    }
-
-            //    var myAccount = new SavingsAccount(customer);
-            //    Accounts.Add(myAccount);
-
-
-            //    Console.WriteLine("An account has been created with the number: " + accNum);
-            //}
-            //catch
-            //{
-            //    Console.WriteLine("Write a number");
-            //}
         }
 
         public void ChangeName()

@@ -178,6 +178,7 @@ namespace Grupp_3_BankApp
                 {
                     case 1:
                         //ChangeName();
+                        Console.Write("Write your new name: ");
                         string newName = Console.ReadLine();
                         customer.ChangeCustomerName(newName, customer.PrsnNumber);
                         break;
