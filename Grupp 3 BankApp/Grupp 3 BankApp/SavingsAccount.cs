@@ -17,7 +17,7 @@ class SavingsAccount
 
         public SavingsAccount(Customer customer, int kontonummer)
         {
-            kontonummer = IncrementKontonummer(customer);
+            Kontonummer = kontonummer;
             Saldo = 0;
         }
 
@@ -51,12 +51,12 @@ class SavingsAccount
 
         public string kontotyp = "sparkonto";
 
-        public string PrintAccountInfo()
+        public void PrintAccountInfo()
         {
-            return $"kontonummer: {_Kontonummer} \n" +
-                $"saldo: {kontosaldo} \n" +
-                $"kontotyp: Sparkonto" +
-                $"\nRäntesats: {kontoräntesats}%";
+            Console.WriteLine($"Kontonummer: {_Kontonummer} \n" +
+                $"Saldo: {kontosaldo} \n" +
+                $"Kontotyp: Sparkonto \n" +
+                $"Räntesats: {kontoräntesats}%");
         }
 
         public int IncrementKontonummer(Customer customer)
@@ -67,7 +67,15 @@ class SavingsAccount
             {
                 customerAccounts[index] = account._Kontonummer;
             }
-            int maxNummer = customerAccounts.Max();
+            int maxNummer;
+            try
+            {
+                maxNummer = customerAccounts.Max();
+            }
+            catch
+            {
+                maxNummer = 1000;
+            }
             return maxNummer + 1;
         }
 

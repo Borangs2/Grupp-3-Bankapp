@@ -15,11 +15,10 @@ namespace Grupp_3_BankApp
         {
             
             Console.WriteLine("Welcome to KYH BANK, please enter your Social Security number... (YYYYMMDDXXXX)");
-            string prsnnmr = Console.ReadLine();
+            string prsnNmr = Console.ReadLine();
             try
             {
-                int PrsnNumber = (int)Convert.ToInt64(prsnnmr);
-                Customer currentCustomer = bank.GetCustomer(prsnnmr);
+                Customer currentCustomer = bank.GetCustomer(prsnNmr);
 
                 if (currentCustomer != null)
                 {
@@ -31,7 +30,6 @@ namespace Grupp_3_BankApp
                         "3. View account\n" +
                         "4. Exit and Log out\n");
 
-                        //Console.WriteLine("(for swedish please press 9)");
                         try
                         {
                             int stringMenu1 = Convert.ToInt32(Console.ReadLine());
@@ -41,7 +39,7 @@ namespace Grupp_3_BankApp
                                     AccountMenu(currentCustomer);
                                     break;
                                 case 2:
-                                    ChangeAccountMenu();
+                                    ChangeAccountMenu(currentCustomer);
                                     break;
                                 case 3:
                                     //Get customer info
@@ -49,12 +47,11 @@ namespace Grupp_3_BankApp
                                     break;
                                 case 4:
                                     //Exit application
-                                    Console.WriteLine("Thank you for using KYH bank. We hope to se you later");
+                                    Console.WriteLine("Thank you for using KYH bank. We hope to see you later");
                                     Environment.Exit(0);
                                     break;
                                 case 6:
-                                    AdminMenu(bank);
-                                    //Admin meny                               
+                                    AdminMenu(bank);                               
                                     break;
                                 case 9:
                                     //ChangeLang();
@@ -68,7 +65,7 @@ namespace Grupp_3_BankApp
                         }
                         catch
                         {
-                            Console.WriteLine("Please write a number listed above");
+                            Console.WriteLine("Please write one of the numbers listed above");
                         }
 
 
@@ -86,10 +83,10 @@ namespace Grupp_3_BankApp
             {
                 Console.WriteLine("Write a number");
             }
-            
 
-            
-            
+
+
+
         }
         private void AccountMenu(Customer customer)
         {
@@ -110,32 +107,84 @@ namespace Grupp_3_BankApp
                         int nyttKonto = customer.AddSavingsAccount(customer);
                         Console.WriteLine($"A new account with the account number {nyttKonto} has been created");
                         break;
+
                     case 2:
                         //GetCustomer();
+                        foreach (SavingsAccount account in customer.Accounts)
+                        {
+                            account.PrintAccountInfo();
+                            Console.WriteLine("-------------------------------------------");
+                        }
                         break;
+
                     case 3:
                         //Insättning
+                        try
+                        {
+                            Console.WriteLine("write the account number to deposit: ");
+                            int kontoNummer = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("How much money: ");
+                            double kronor = Convert.ToDouble(Console.ReadLine());
+                            if (customer.Insättning(customer.PrsnNumber, kontoNummer, kronor))
+                            {
+                                Console.WriteLine($"{kronor} has been deposited to your account");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("An error occured while depositing to your account \n " +
+                                    "Are you sure you wrote the correct account number?");
+                            }
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Write a number");
+                        }
                         break;
+                        
+
                     case 4:
                         //Uttag
+                        try
+                        {
+                            Console.WriteLine("write the account number to withdrawal: ");
+                            int kontoNummer = Convert.ToInt32(Console.ReadLine());
+                            Console.WriteLine("How much money: ");
+                            double kronor = Convert.ToDouble(Console.ReadLine());
+                            bool succeded = customer.Uttag(customer.PrsnNumber, kontoNummer, kronor);
+                            if (succeded)
+                            {
+                                Console.WriteLine($"{kronor} has been withdrawn from your account");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("An error occured while Withdrawing from your account\n" +
+                                    "Are you sure you wrote the correct account number or wrote a number greater then the amount of money you have on your account?");
+                            }
+
+                        }
+                        catch
+                        {
+                            Console.WriteLine("Write a number");
+                        }
                         break;
+
                     case 5:
                         //CloseAccount
+                        customer.RemoveAccount(customer);
                         break;
+
                     case 6:
                         return;
-
-                    default:
-                        Console.WriteLine("Unknown command");
-                        break;
                 }
             }
             catch
             {
-                Console.WriteLine("Please write a number listed above");
+                Console.WriteLine("Please write one of the numbers listed above");
             }
         }
-        private void ChangeAccountMenu()
+        private void ChangeAccountMenu(Customer customer)
         {
             Console.WriteLine(
                 "1. Change your name\n" +
@@ -149,9 +198,20 @@ namespace Grupp_3_BankApp
                 {
                     case 1:
                         //ChangeName();
+                        Console.Write("Write your new name: ");
+                        string newName = Console.ReadLine();
+                        if(customer.ChangeCustomerName(newName, customer.PrsnNumber))
+                        {
+                            Console.WriteLine("Name changed successfully");
+                        }
+                        else
+                        {
+                            Console.WriteLine("An error occured while changing your name");
+                        }
                         break;
                     case 2:
                         //RemoveCustomer();
+                        customer.RemoveCustomer(customer.PrsnNumber);
                         break;
                     case 3:
                         return;
@@ -162,7 +222,7 @@ namespace Grupp_3_BankApp
             }
             catch
             {
-                Console.WriteLine("Please write a number listed above");
+                Console.WriteLine("Please write one of the numbers listed above");
             }
             
         }
