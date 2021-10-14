@@ -21,7 +21,7 @@ class SavingsAccount
             Saldo = 0;
         }
 
-        public SavingsAccount(int kontonummer, int saldo)
+        public SavingsAccount(int kontonummer, double saldo)
         {
             _Kontonummer = kontonummer;
             Saldo = saldo;

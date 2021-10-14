@@ -452,7 +452,7 @@ namespace Grupp_3_BankApp
                     {
                         string[] thisAccount = account.Split(" , ");
                         int accountNumber = Convert.ToInt32(thisAccount[0]);
-                        int saldo = Convert.ToInt32(thisAccount[1]);
+                        double saldo = Convert.ToDouble(thisAccount[1]);
                         getAccounts.Add(new SavingsAccount(accountNumber, saldo));
                     }
                 }
