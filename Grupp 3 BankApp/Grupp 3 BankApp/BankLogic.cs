@@ -177,10 +177,10 @@ namespace Grupp_3_BankApp
                         GlobalCustomerList[index] = customer;
 
 
-                        List<string> customerList = new List<string>(File.ReadAllLines(filePath));
-                        List<string> customerAccounts = customer.GetAccountsToString(customer);
-
-                        string joined = string.Join(" : ", customerAccounts);
+                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+                    List<string> customerAccounts = customer.GetAccountsToString(customer);
+                    
+                    string joined = string.Join(" : ", customerAccounts);
 
                         string changedLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
                         customerList[index] = changedLine;
