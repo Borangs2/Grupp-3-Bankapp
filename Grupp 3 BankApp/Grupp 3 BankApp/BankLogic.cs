@@ -262,26 +262,46 @@ namespace Grupp_3_BankApp
         {
             int index = GlobalCustomerList.IndexOf(customer);
 
+            //Get all data
+            List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+            //Get all accounts in a single string
+
+            int maxNummer = IncrementKontonummer(customer);
+            customer.AddAccount(new SavingsAccount(customer, maxNummer));
+
             List<string> customerAccounts = new List<string>();
-            foreach(SavingsAccount account in customer.Accounts)
+            foreach (SavingsAccount account in customer.Accounts)
             {
                 customerAccounts.Add($"{account.Kontonummer} , {account.Saldo}");
             }
 
-            //Get all data
-            List<string> customerList = new List<string>(File.ReadAllLines(filePath));
-            //Get all accounts in a single string
             string joined = string.Join(" : ", customerAccounts);
-
             string newLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
 
             customerList[index] = newLine;
             File.WriteAllLines(filePath, customerList);
 
-            int maxNummer = customerAccounts.Count + 1;
-            customer.AddAccount(new SavingsAccount(customer, maxNummer));
-
             return maxNummer;
+        }
+
+        public int IncrementKontonummer(Customer customer)
+        {
+            int[] customerAccounts = new int[customer.Accounts.Count];
+            int index = 0;
+            foreach (SavingsAccount account in customer.Accounts)
+            {
+                customerAccounts[index] = account.Kontonummer;
+            }
+            int maxNummer;
+            try
+            {
+                maxNummer = customerAccounts.Max();
+            }
+            catch
+            {
+                maxNummer = 1000;
+            }
+            return maxNummer + 1;
         }
 
         //*

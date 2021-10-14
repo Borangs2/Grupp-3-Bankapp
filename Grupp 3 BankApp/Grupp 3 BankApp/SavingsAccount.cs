@@ -17,7 +17,7 @@ class SavingsAccount
 
         public SavingsAccount(Customer customer, int kontonummer)
         {
-            kontonummer = IncrementKontonummer(customer);
+            Kontonummer = kontonummer;
             Saldo = 0;
         }
 
@@ -74,7 +74,7 @@ class SavingsAccount
             }
             catch
             {
-                maxNummer = 0;
+                maxNummer = 1000;
             }
             return maxNummer + 1;
         }
