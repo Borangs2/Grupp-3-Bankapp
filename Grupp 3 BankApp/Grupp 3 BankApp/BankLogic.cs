@@ -408,18 +408,18 @@ namespace Grupp_3_BankApp
         //Call on startup to fetch and create files and the global customer list
         public bool Startup()
         {
-            //try
-            //{
-            CreateGlobalCustomerList();
+            try
+            {
+                CreateGlobalCustomerList();
 
-            InterpretFile(ReadCustomerFile());
-            GlobalCustomerListCheck = true;
-            return true;
-            //}
-            //catch
-            //{
-            //    throw new FileErrorException();
-            //}
+                InterpretFile(ReadCustomerFile());
+                GlobalCustomerListCheck = true;
+                return true;
+            }
+            catch
+            {
+                throw new FileErrorException();
+            }
         }
 
         //Interprets the files read by the ReadCustomerFiles method
