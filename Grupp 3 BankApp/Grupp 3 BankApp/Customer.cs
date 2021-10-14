@@ -44,8 +44,13 @@ namespace Grupp_3_BankApp
                         if(Accounts[index].Kontonummer == removeAccount)
                         {
                             thisAccount = customer.Accounts[index];
-                            customer.Accounts.Remove(thisAccount);
                             Console.WriteLine("Account removed Succesfully");
+                            if(thisAccount.Saldo > 0)
+                            {
+                                Console.WriteLine($"There was still {thisAccount.Saldo} left on the account so get back {thisAccount.Saldo * (1 + (thisAccount.räntesats/100))}");
+                            }
+
+                            customer.Accounts.Remove(thisAccount);
                             //return true;
                         }
                     }
