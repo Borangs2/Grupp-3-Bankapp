@@ -165,35 +165,37 @@ namespace Grupp_3_BankApp
         //Returns true if it succeded and false otherwise
         public bool ChangeCustomerName(string newName, string prsnNumber) 
         {
-            
-            foreach(Customer customer in GlobalCustomerList)
-            {              
-                if (customer.PrsnNumber == prsnNumber)
+            if (!string.IsNullOrEmpty(newName))
+            {
+                foreach (Customer customer in GlobalCustomerList)
                 {
-                    try
+                    if (customer.PrsnNumber == prsnNumber)
                     {
-                        customer.Name = newName;
-                        int index = GlobalCustomerList.IndexOf(customer);
-                        GlobalCustomerList[index] = customer;
+                        try
+                        {
+                            customer.Name = newName;
+                            int index = GlobalCustomerList.IndexOf(customer);
+                            GlobalCustomerList[index] = customer;
 
 
-                    List<string> customerList = new List<string>(File.ReadAllLines(filePath));
-                    List<string> customerAccounts = customer.GetAccountsToString(customer);
-                    
-                    string joined = string.Join(" : ", customerAccounts);
+                            List<string> customerList = new List<string>(File.ReadAllLines(filePath));
+                            List<string> customerAccounts = customer.GetAccountsToString(customer);
 
-                        string changedLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
-                        customerList[index] = changedLine;
-                        File.WriteAllLines(filePath, customerList);
+                            string joined = string.Join(" : ", customerAccounts);
 
-                        return true;
+                            string changedLine = $"{customer.Name} - {customer.PrsnNumber} ; {joined}";
+                            customerList[index] = changedLine;
+                            File.WriteAllLines(filePath, customerList);
+                            return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
                     }
-                    catch
-                    {
-                        return false;
-                    }
-                }  
-            }         
+                }
+            }
+              
             return false;
         }
 
