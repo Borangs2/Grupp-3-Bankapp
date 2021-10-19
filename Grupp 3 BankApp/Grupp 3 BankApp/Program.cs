@@ -11,6 +11,7 @@ namespace Grupp_3_BankApp
             Program program = new Program();
             program.Menu(bank);
         }
+
         public void Menu(BankLogic bank)
         {
             
