@@ -225,9 +225,9 @@ namespace Grupp_3_BankApp
                         }
                         //När allt är implementerat se till att detta fungerar
                         File.WriteAllLines(filePath, newList);
-                        return true;
                     }
-                 }
+                    return true;
+                }
             }
             return false;
         }
